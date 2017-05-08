@@ -10,7 +10,7 @@ use Carbon\Carbon;
 use H5pCore;
 use H5peditor;
 use Chali5124\LaravelH5p\LaravelH5p;
-use Chali5124\LaravelH5p\Events\H5PEvent;
+use Chali5124\LaravelH5p\Events\H5pEvent;
 use Chali5124\LaravelH5p\Eloquents\H5pContent;
 use Chali5124\LaravelH5p\Http\Requests\PostH5pContent;
 use Chali5124\LaravelH5p\Eloquents\H5pLibrary;

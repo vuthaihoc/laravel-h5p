@@ -42,10 +42,10 @@
                     </div>
                 </div>
 
+                
                 <div class="form-group laravel-h5p-upload-container">
-                    <label for="inputContentType" class="control-label col-md-3">{{ trans('laravel-h5p::laravel-h5p.content.upload') }}</label>
+                    <label for="inputLibrary" class="control-label col-md-3">{{ trans('laravel-h5p::laravel-h5p.content.upload') }}</label>
                     <div class="col-md-9">
-
                         <input type="file" name="h5p_file" id="h5p-file" class="laravel-h5p-upload form-control"/>
                         <small class="h5p-disable-file-check helper-block">
                             <label class="">
@@ -53,51 +53,28 @@
                             </label>
                         </small>
 
-                        @if ($errors->has('content_type'))
+                        @if ($errors->has('library'))
                         <span class="help-block">
-                            {{ $errors->first('content_type') }}
+                            {{ $errors->first('library') }}
                         </span>
                         @endif
                     </div>
                 </div>
 
-                <div id="laravel-h5p-create" class="form-group {{ $errors->has('content') ? 'has-error' : '' }}">
-                    <label for="inputContent" class="control-label col-md-3">{{ trans('laravel-h5p::laravel-h5p.content.content_type') }}</label>
+                <div id="laravel-h5p-create" class="form-group {{ $errors->has('parameters') ? 'has-error' : '' }}">
+                    <label for="inputParameters" class="control-label col-md-3">{{ trans('laravel-h5p::laravel-h5p.content.parameters') }}</label>
                     <div class="col-md-9">
                         <div>
                             <div id="laravel-h5p-editor">{{ trans('laravel-h5p::laravel-h5p.content.loading_content') }}</div>
                         </div>
 
-                        @if ($errors->has('content'))
+                        @if ($errors->has('parameters'))
                         <span class="help-block">
-                            {{ $errors->first('content') }}
+                            {{ $errors->first('parameters') }}
                         </span>
                         @endif
                     </div>
                 </div>
-
-
-
-                <div class="form-group {{ $errors->has('content_type') ? 'has-error' : '' }}">
-                    <label for="inputContentType" class="control-label col-md-3">{{ trans('laravel-h5p::laravel-h5p.content.method') }}</label>
-                    <div class="col-md-6">
-
-                        <label class="radio-inline">
-                            <input type="radio" name="action" value="upload" class="laravel-h5p-type" >{{ trans('laravel-h5p::laravel-h5p.content.method_upload') }}
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="action" value="create" class="laravel-h5p-type" checked="checked"/>{{ trans('laravel-h5p::laravel-h5p.content.method_create') }}
-                        </label>
-
-
-                        @if ($errors->has('content_type'))
-                        <span class="help-block">
-                            {{ $errors->first('content_type') }}
-                        </span>
-                        @endif
-                    </div>
-                </div>
-
                 
                 @if(config('laravel-h5p.H5P_DEV'))
                 
