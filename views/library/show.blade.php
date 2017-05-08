@@ -42,7 +42,7 @@
 @endpush
 
 @push( 'footer-script' )
-    @foreach($required_files['script'] as $script)
+    @foreach($required_files['scripts'] as $script)
     {{ Html::script($script) }}
     @endforeach   
 @endpush

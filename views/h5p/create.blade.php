@@ -76,6 +76,26 @@
                     </div>
                 </div>
                 
+                <div class="form-group {{ $errors->has('content_type') ? 'has-error' : '' }}">
+                    <label for="inputContentType" class="control-label col-md-3">{{ trans('laravel-h5p::laravel-h5p.content.method') }}</label>
+                    <div class="col-md-6">
+
+                        <label class="radio-inline">
+                            <input type="radio" name="action" value="upload" class="laravel-h5p-type" >{{ trans('laravel-h5p::laravel-h5p.content.method_upload') }}
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="action" value="create" class="laravel-h5p-type" checked="checked"/>{{ trans('laravel-h5p::laravel-h5p.content.method_create') }}
+                        </label>
+
+
+                        @if ($errors->has('content_type'))
+                        <span class="help-block">
+                            {{ $errors->first('content_type') }}
+                        </span>
+                        @endif
+                    </div>
+                </div>
+                
                 @if(config('laravel-h5p.H5P_DEV'))
                 
                     @if (isset($display_options['frame']))
