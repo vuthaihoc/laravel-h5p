@@ -1,5 +1,3 @@
-Copyright (c) 2016, chali5124@gmail.com. All rights reserved.
-
 # H5P Plugin in Laravel Framework 
 
 ## Installation
@@ -41,5 +39,7 @@ php artisan migrate
 cd public/vendor/h5p;
 ln -s ../../../storage/h5p/libraries  
 ```
+
+Copyright (c) 2016, chali5124@gmail.com. All rights reserved.
 
 On Development...
