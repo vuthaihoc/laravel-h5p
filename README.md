@@ -38,8 +38,8 @@ php artisan migrate
 ```
 
 ```bash
-cd public/vendor;
-ln -s ../../storage/h5p/libraries 
+cd public/vendor/h5p;
+ln -s ../../../storage/h5p/libraries  
 ```
 
 On Development...
