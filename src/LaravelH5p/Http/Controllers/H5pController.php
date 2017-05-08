@@ -34,8 +34,7 @@ class H5pController extends Controller {
         $parameters = '{}';
 
         $display_options = $core->getDisplayOptionsForEdit('');
-        dd($display_options);
-
+        
         // view 에서 출력할 파일과 세팅을 가져온다
         $settings = $h5p::get_editor();
 
@@ -48,16 +47,16 @@ class H5pController extends Controller {
 
 //    public function store(PostH5pContent $request) {
     public function store(Request $request) {
-
-        $this->validate($request, [
-            'title' => 'required|max:250',
-            'library' => 'required',
-            'parameters' => 'required'
-                ], [
-            'title' => trans('laravel-h5p::laravel-h5p.content.title'),
-            'library' => trans('laravel-h5p::laravel-h5p.content.library'),
-            'parameters' => trans('laravel-h5p::laravel-h5p.content.parameters')
-        ]);
+        
+//        $this->validate($request, [
+//            'title' => 'required|max:250',
+//            'library' => 'required',
+//            'parameters' => 'required'
+//                ], [
+//            'title' => trans('laravel-h5p::laravel-h5p.content.title'),
+//            'library' => trans('laravel-h5p::laravel-h5p.content.library'),
+//            'parameters' => trans('laravel-h5p::laravel-h5p.content.parameters')
+//        ]);
         
         $h5p = App::make('LaravelH5p');
         $core = $h5p::$core;
@@ -103,15 +102,15 @@ class H5pController extends Controller {
 
     public function edit(Request $request, $id) {
 
-        $this->validate($request, [
-            'title' => 'required|max:250',
-            'library' => 'required',
-            'parameters' => 'required'
-                ], [
-            'title' => trans('laravel-h5p::laravel-h5p.content.title'),
-            'library' => trans('laravel-h5p::laravel-h5p.content.library'),
-            'parameters' => trans('laravel-h5p::laravel-h5p.content.parameters')
-        ]);
+//        $this->validate($request, [
+//            'title' => 'required|max:250',
+//            'library' => 'required',
+//            'parameters' => 'required'
+//                ], [
+//            'title' => trans('laravel-h5p::laravel-h5p.content.title'),
+//            'library' => trans('laravel-h5p::laravel-h5p.content.library'),
+//            'parameters' => trans('laravel-h5p::laravel-h5p.content.parameters')
+//        ]);
 
         $h5p = App::make('LaravelH5p');
         $core = $h5p::$core;
