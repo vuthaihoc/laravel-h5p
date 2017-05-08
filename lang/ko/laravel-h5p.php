@@ -14,6 +14,8 @@ return [
         'method_upload' => '업로드',
         'method_create' => '만들기',
         'loading_content' => '로딩중',
+        'library' => '라이브러리',
+        'parameters' => '내용',
        
         'search-result' => '총 :count개의 컨텐츠가 검색되었습니다.',
         'no-result' => "검색된 컨텐츠가 없습니다.",

@@ -50,7 +50,12 @@ class H5pController extends Controller {
             'title' => 'required|max:250',
             'library' => 'library',
             'parameters' => 'parameters',
+                ], [
+            'title' => trans('laravel-h5p::laravel-h5p.content.title'),
+            'library' => trans('laravel-h5p::laravel-h5p.content.library'),
+            'parameters' => trans('laravel-h5p::laravel-h5p.content.parameters')
         ]);
+
 
 
         $h5p = App::make('LaravelH5p');
@@ -111,6 +116,10 @@ class H5pController extends Controller {
             'title' => 'required|max:250',
             'library' => 'library',
             'parameters' => 'parameters',
+                ], [
+            'title' => trans('laravel-h5p::laravel-h5p.content.title'),
+            'library' => trans('laravel-h5p::laravel-h5p.content.library'),
+            'parameters' => trans('laravel-h5p::laravel-h5p.content.parameters')
         ]);
 
         $h5p = App::make('LaravelH5p');
@@ -217,4 +226,5 @@ class H5pController extends Controller {
         );
         $content['disable'] = $core->getStorableDisplayOptions($set, $content['disable']);
     }
+
 }

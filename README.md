@@ -19,4 +19,19 @@ Next, include the service provider within your `config/app.php` file.
 ```
 
 
+```php
+'classmap': [
+    "vendor/h5p/h5p-core/h5p-default-storage.class.php",
+    "vendor/h5p/h5p-core/h5p-development.class.php",
+    "vendor/h5p/h5p-core/h5p-event-base.class.php",
+    "vendor/h5p/h5p-core/h5p-file-storage.interface.php",
+    "vendor/h5p/h5p-core/h5p.classes.php",
+    "vendor/h5p/h5p-editor/h5peditor-ajax.class.php",
+    "vendor/h5p/h5p-editor/h5peditor-ajax.interface.php",
+    "vendor/h5p/h5p-editor/h5peditor-file.class.php",
+    "vendor/h5p/h5p-editor/h5peditor-storage.interface.php",
+    "vendor/h5p/h5p-editor/h5peditor.class.php"
+],
+
+```
 On Development...

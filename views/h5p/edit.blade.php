@@ -100,7 +100,7 @@
                 </div>
 
                 
-                @if($asd)
+                @if(config('laravel-h5p.H5P_DEV'))
                  
                     @if (isset($display_options['frame']))
                     <div class="form-group h5p-sidebar">
