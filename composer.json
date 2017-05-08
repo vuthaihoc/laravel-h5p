@@ -10,14 +10,9 @@
     ],
     "license": "MIT",
     "minimum-stability": "dev",
-    "prefer-stable": true,
+    "prefer-stable": false,
     "autoload": {
-        "classmap": [
-            "vendor/h5p/h5p-core",
-            "vendor/h5p/h5p-editor"
-        ],
         "psr-4": {
-            "App\\": "app/",
             "Chali5124\\LaravelH5p\\": "src/LaravelH5p"
         }
     },
