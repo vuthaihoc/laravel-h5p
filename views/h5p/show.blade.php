@@ -1,6 +1,5 @@
 @extends( config('laravel-h5p.layout') )
 
-
 @section( 'content' )
 <div class="container-fluid">
 
@@ -21,24 +20,22 @@
     </div>
 
 </div>
-
 @endsection
 
-@section( 'header-script' )
+@push( 'header-script' )
+    {{--    core styles       --}}
+    @foreach($settings['core']['styles'] as $style)
+    {{ Html::style($style) }}
+    @endforeach
+@endpush
 
-{{--    core styles       --}}
-@foreach($settings['core']['styles'] as $style)
-{{ Html::style($style) }}
-@endforeach
+@push( 'footer-script' )
+    <script type="text/javascript">
+        H5PIntegration = {!! json_encode($settings) !!};
+    </script>
 
-@section( 'footer-script' )
-<script type="text/javascript">
-    H5PIntegration = {!! json_encode($settings) !!};
-</script>
-
-{{--    core script       --}}
-@foreach($settings['core']['scripts'] as $script)
-{{ Html::script($script) }}
-@endforeach
-
-@endsection
+    {{--    core script       --}}
+    @foreach($settings['core']['scripts'] as $script)
+    {{ Html::script($script) }}
+    @endforeach
+@endpush

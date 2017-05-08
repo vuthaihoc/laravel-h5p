@@ -167,73 +167,70 @@
 
 
 
-@section( 'header-script' )
-
-{{--    core script       --}}
-@foreach($required_files['styles'] as $style)
-{{ Html::style($style) }}
-@endforeach
-
-{{--    core script       --}}
-@foreach($required_files['scripts'] as $script)
-{{ Html::script($script) }}
-@endforeach
-
-@endsection
 
 
-@section( 'footer-script' )
 
-<script type="text/javascript">
-    H5PAdminIntegration = {!! json_encode($settings) !!};
-</script>
 
-<script type="text/javascript">
+@push( 'header-script' )
+    {{--    core styles       --}}
+    @foreach($required_files['styles'] as $style)
+    {{ Html::style($style) }}
+    @endforeach
+@endpush
 
-    (function ($) {
+@push( 'footer-script' )
+    <script type="text/javascript">
+        H5PAdminIntegration = {!! json_encode($settings) !!};
+    </script>
 
-        $(document).ready(function () {
+    {{--    core script       --}}
+    @foreach($required_files['scripts'] as $script)
+    {{ Html::script($script) }}
+    @endforeach
 
-            $(document).on("click", ".laravel-h5p-restricted", function (e) {
+    <script type="text/javascript">
+        (function ($) {
 
-                var $this = $(this);
+            $(document).ready(function () {
 
-                $.ajax({
-                    url: "{{ route('laravel-h5p.library.restrict') }}",
-                    data: {id: $this.data('id'), selected: $this.is(':checked')},
-                    success: function (response) {
-                        alert('변경되었습니다');
-                    }
-                });
+                $(document).on("click", ".laravel-h5p-restricted", function (e) {
 
-            });
+                    var $this = $(this);
 
-            $(document).on("click", ".laravel-h5p-destory", function (e) {
-
-                var $this = $(this);
-                if (confirm("해당 라이브러리를 삭제하시겠습니까?")) {
                     $.ajax({
-                        url: "{{ route('laravel-h5p.library.destory') }}",
-                        data: {id: $this.data('id')},
+                        url: "{{ route('laravel-h5p.library.restrict') }}",
+                        data: {id: $this.data('id'), selected: $this.is(':checked')},
                         success: function (response) {
-//                        alert('삭제되었습니다');
-                            if (response.msg) {
-                                alert(response.msg);
-                            }
+                            alert('변경되었습니다');
                         }
                     });
 
-                }
+                });
+
+                $(document).on("click", ".laravel-h5p-destory", function (e) {
+
+                    var $this = $(this);
+                    if (confirm("해당 라이브러리를 삭제하시겠습니까?")) {
+                        $.ajax({
+                            url: "{{ route('laravel-h5p.library.destory') }}",
+                            data: {id: $this.data('id')},
+                            success: function (response) {
+    //                        alert('삭제되었습니다');
+                                if (response.msg) {
+                                    alert(response.msg);
+                                }
+                            }
+                        });
+
+                    }
+
+                });
+
+
+
 
             });
 
-
-
-
-        });
-
-    })(H5P.jQuery);
-
-
-</script>
-@endsection
+        })(H5P.jQuery);
+    </script>
+@endpush

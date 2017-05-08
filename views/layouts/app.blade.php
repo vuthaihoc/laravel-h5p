@@ -10,7 +10,6 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
-
         <script>
             window.Laravel = <?php
 echo json_encode([
@@ -24,7 +23,7 @@ echo json_encode([
 
         <link rel="stylesheet" href="{{ url('/assets/css/app.css') }}"/>
 
-        @yield('header-script')
+        @stack('header-script')
         <link rel="stylesheet" href="{{ url('/vendor/laravel-h5p/css/laravel-h5p.css') }}"/>
 
         <!-- Styles -->
@@ -163,11 +162,10 @@ echo json_encode([
 
             @yield('content')
 
-        </div>       
-
-
+        </div>
+        
         <script type="text/javascript" src="{{ url('/assets/js/app.js') }}"></script>        
-        @yield('footer-script')
+        @stack('footer-script')
 
     </body>
 </html>

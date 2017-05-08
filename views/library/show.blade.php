@@ -6,9 +6,6 @@
 
         <div class="col-md-12">
 
-
-
-
             <h3>{{ $library->title }}</h3>
 
             Version
@@ -38,30 +35,14 @@
 
 @endsection
 
+@push( 'header-script' )
+    @foreach($required_files['styles'] as $style)
+    {{ Html::style($style) }}
+    @endforeach    
+@endpush
 
-
-@section( 'header-script' )
-
-{{--    core styles       --}}
-@foreach($header_files as $script)
-{{ Html::script('vendor/h5p/h5p-core/'.$script) }}
-@endforeach
-
-
-{{ Html::style('vendor/h5p/h5p-core/styles/h5p.css') }}
-{{ Html::style('vendor/h5p/h5p-core/styles/h5p-admin.css') }}
-{{ Html::script('vendor/h5p/h5p-core/js/h5p-library-details.js') }}
-
-@endsection
-
-
-
-@section( 'footer-script' )
-<script type="text/javascript">
-    H5PAdminIntegration = {!! json_encode($settings) !!};
-</script>
-
-<script type="text/javascript">
-
-</script>
-@endsection
+@push( 'footer-script' )
+    @foreach($required_files['script'] as $script)
+    {{ Html::script($script) }}
+    @endforeach   
+@endpush

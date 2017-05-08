@@ -12,7 +12,6 @@
             <input type="hidden" name="library" id="laravel-h5p-library" value="{{ $library }}">
             <input type="hidden" name="parameters" id="laravel-h5p-parameters" value="{{ $parameters }}">
 
-            
             <fieldset>
 
                 <div class="form-item form-type-file form-item-files-h5p" style="display: none;">
@@ -100,76 +99,79 @@
                     </div>
                 </div>
 
+                
+                @if($asd)
+                 
+                    @if (isset($display_options['frame']))
+                    <div class="form-group h5p-sidebar">
+                        <label class="control-label col-md-3">{{ trans('laravel-h5p::laravel-h5p.content.display') }}</label>
+                        <div class="col-md-9">
+                            <div class="form-control-static">
+                                <ul class="list-unstyled">
 
-                @if (isset($display_options['frame']))
-                <div class="form-group h5p-sidebar">
-                    <label class="control-label col-md-3">{{ trans('laravel-h5p::laravel-h5p.content.display') }}</label>
-                    <div class="col-md-9">
-                        <div class="form-control-static">
-                            <ul class="list-unstyled">
-
-                                <li>
-                                    <label>
-                                        {{ Form::checkbox('frame', true, $display_options[H5PCore::DISPLAY_OPTION_FRAME], [
-                                    'class' => 'h5p-visibility-toggler',
-                                    'data-h5p-visibility-subject-selector' => ".h5p-action-bar-buttons-settings",
-                                    'id' => 'laravel-h5p-title',
-                                    'value' => old('title')
-                                ]) }}
-                                        {{ trans("laravel-h5p::laravel-h5p.content.display_toolbar") }}
-                                    </label>
-                                </li>
+                                    <li>
+                                        <label>
+                                            {{ Form::checkbox('frame', true, $display_options[H5PCore::DISPLAY_OPTION_FRAME], [
+                                        'class' => 'h5p-visibility-toggler',
+                                        'data-h5p-visibility-subject-selector' => ".h5p-action-bar-buttons-settings",
+                                        'id' => 'laravel-h5p-title',
+                                        'value' => old('title')
+                                    ]) }}
+                                            {{ trans("laravel-h5p::laravel-h5p.content.display_toolbar") }}
+                                        </label>
+                                    </li>
 
 
-                                @if (isset($display_options[H5PCore::DISPLAY_OPTION_DOWNLOAD]) || isset($display_options[H5PCore::DISPLAY_OPTION_EMBED]) || isset($display_options[H5PCore::DISPLAY_OPTION_COPYRIGHT])) 
+                                    @if (isset($display_options[H5PCore::DISPLAY_OPTION_DOWNLOAD]) || isset($display_options[H5PCore::DISPLAY_OPTION_EMBED]) || isset($display_options[H5PCore::DISPLAY_OPTION_COPYRIGHT])) 
 
-                                @if(isset($display_options[H5PCore::DISPLAY_OPTION_DOWNLOAD]))
-                                <li>
-                                    <label>
-                                        <input name="download" type="checkbox" value="true"
-                                               @if($display_options[H5PCore::DISPLAY_OPTION_DOWNLOAD]) 
-                                               checked="checked"
-                                               @endif
-                                               />
-                                               {{ trans("laravel-h5p::laravel-h5p.content.display_download_button") }}
-                                    </label>
-                                </li>
-                                @endif
+                                    @if(isset($display_options[H5PCore::DISPLAY_OPTION_DOWNLOAD]))
+                                    <li>
+                                        <label>
+                                            <input name="download" type="checkbox" value="true"
+                                                   @if($display_options[H5PCore::DISPLAY_OPTION_DOWNLOAD]) 
+                                                   checked="checked"
+                                                   @endif
+                                                   />
+                                                   {{ trans("laravel-h5p::laravel-h5p.content.display_download_button") }}
+                                        </label>
+                                    </li>
+                                    @endif
 
-                                @if (isset($display_options[H5PCore::DISPLAY_OPTION_EMBED]))
-                                <li>
-                                    <label>
-                                        <input name="embed" type="checkbox" value="true"
-                                               @if ($display_options[H5PCore::DISPLAY_OPTION_EMBED]) 
-                                               checked="checked"
-                                               @endif
-                                               />
-                                               {{ trans("laravel-h5p::laravel-h5p.content.display_embed_button") }}
-                                    </label>
-                                </li>
-                                @endif
+                                    @if (isset($display_options[H5PCore::DISPLAY_OPTION_EMBED]))
+                                    <li>
+                                        <label>
+                                            <input name="embed" type="checkbox" value="true"
+                                                   @if ($display_options[H5PCore::DISPLAY_OPTION_EMBED]) 
+                                                   checked="checked"
+                                                   @endif
+                                                   />
+                                                   {{ trans("laravel-h5p::laravel-h5p.content.display_embed_button") }}
+                                        </label>
+                                    </li>
+                                    @endif
 
-                                @if  (isset($display_options[H5PCore::DISPLAY_OPTION_COPYRIGHT]))
-                                <li>
-                                    <label>
-                                        <input name="copyright" type="checkbox" value="true"
-                                               @if ($display_options[H5PCore::DISPLAY_OPTION_COPYRIGHT]) 
-                                               checked="checked"
-                                               @endif
-                                               />
-                                               {{ trans("laravel-h5p::laravel-h5p.content.display_copyright_button") }}
-                                    </label>
-                                </li>
-                                @endif
+                                    @if  (isset($display_options[H5PCore::DISPLAY_OPTION_COPYRIGHT]))
+                                    <li>
+                                        <label>
+                                            <input name="copyright" type="checkbox" value="true"
+                                                   @if ($display_options[H5PCore::DISPLAY_OPTION_COPYRIGHT]) 
+                                                   checked="checked"
+                                                   @endif
+                                                   />
+                                                   {{ trans("laravel-h5p::laravel-h5p.content.display_copyright_button") }}
+                                        </label>
+                                    </li>
+                                    @endif
 
-                                @endif
+                                    @endif
 
-                            </ul>
+                                </ul>
+                            </div>
+
                         </div>
 
                     </div>
-
-                </div>
+                    @endif
                 @endif
 
             </fieldset>
@@ -198,22 +200,23 @@
 
 @endsection
 
-@section( 'header-script' )
 
-{{--    core styles       --}}
-@foreach($settings['core']['styles'] as $style)
-{{ Html::style($style) }}
-@endforeach
+@push( 'header-script' )
+    {{--    core styles       --}}
+    @foreach($settings['core']['styles'] as $style)
+    {{ Html::style($style) }}
+    @endforeach
+@endpush
 
-@section( 'footer-script' )
-<script type="text/javascript">
-    H5PIntegration = {!! json_encode($settings) !!};
-</script>
+@push( 'footer-script' )
+    <script type="text/javascript">
+        H5PIntegration = {!! json_encode($settings) !!};
+    </script>
 
-{{--    core script       --}}
-@foreach($settings['core']['scripts'] as $script)
-{{ Html::script($script) }}
-@endforeach
-{{ Html::script('vendor/h5p/h5p-editor/scripts/h5peditor-editor.js') }}
-{{ Html::script('vendor/laravel-h5p/js/laravel-h5p.js') }}
-@endsection
+    {{--    core script       --}}
+    @foreach($settings['core']['scripts'] as $script)
+    {{ Html::script($script) }}
+    @endforeach
+    {{ Html::script('vendor/h5p/h5p-editor/scripts/h5peditor-editor.js') }}
+    {{ Html::script('vendor/laravel-h5p/js/laravel-h5p.js') }}
+@endpush

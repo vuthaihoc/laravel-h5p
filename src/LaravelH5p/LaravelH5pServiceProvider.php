@@ -51,9 +51,9 @@ class LaravelH5pServiceProvider extends \Illuminate\Support\ServiceProvider {
             __DIR__ . '/../../migrations' => database_path('migrations')
                 ], 'database');
 
-        $this->publishes([
-            __DIR__ . '/../../seeds/H5pUserSeeder.php' => database_path('seeds/H5pUserSeeder.php')
-                ], 'seeds');
+//        $this->publishes([
+//            __DIR__ . '/../../seeds/H5pUserSeeder.php' => database_path('seeds/H5pUserSeeder.php')
+//                ], 'seeds');
 
         $this->publishes([
             __DIR__ . '/../../config/laravel-h5p.php' => config_path('laravel-h5p.php')

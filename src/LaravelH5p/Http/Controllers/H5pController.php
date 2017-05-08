@@ -29,7 +29,6 @@ class H5pController extends Controller {
         $core = $h5p::$core;
 
         // Prepare form
-        $title = '';
         $library = 0;
         $parameters = '{}';
         $display_options = $core->getDisplayOptionsForEdit('');
@@ -44,21 +43,16 @@ class H5pController extends Controller {
         return view('laravel-h5p::h5p.create', compact("settings", 'user', 'library', 'parameters', 'display_options'));
     }
 
-    private function get_disabled_content_features($core, &$content) {
-        $h5p = App::make('LaravelH5p');
-        $core = $h5p::$core;
-
-        $set = array(
-            H5PCore::DISPLAY_OPTION_FRAME => filter_input(INPUT_POST, 'frame', FILTER_VALIDATE_BOOLEAN),
-            H5PCore::DISPLAY_OPTION_DOWNLOAD => filter_input(INPUT_POST, 'download', FILTER_VALIDATE_BOOLEAN),
-            H5PCore::DISPLAY_OPTION_EMBED => filter_input(INPUT_POST, 'embed', FILTER_VALIDATE_BOOLEAN),
-            H5PCore::DISPLAY_OPTION_COPYRIGHT => filter_input(INPUT_POST, 'copyright', FILTER_VALIDATE_BOOLEAN),
-        );
-        $content['disable'] = $core->getStorableDisplayOptions($set, $content['disable']);
-    }
-
 //    public function store(PostH5pContent $request) {
     public function store(Request $request) {
+
+        $this->validate($request, [
+            'title' => 'required|max:250',
+            'library' => 'library',
+            'parameters' => 'parameters',
+        ]);
+
+
         $h5p = App::make('LaravelH5p');
         $core = $h5p::$core;
 
@@ -112,6 +106,13 @@ class H5pController extends Controller {
     }
 
     public function edit(Request $request, $id) {
+
+        $this->validate($request, [
+            'title' => 'required|max:250',
+            'library' => 'library',
+            'parameters' => 'parameters',
+        ]);
+
         $h5p = App::make('LaravelH5p');
         $core = $h5p::$core;
         $content = $h5p::get_content($id);
@@ -177,8 +178,8 @@ class H5pController extends Controller {
         $h5p = App::make('LaravelH5p');
         $core = $h5p::$core;
 
-
         $content = $h5p->get_content($id);
+
 //        if (!is_string($content)) {
 //            $tags = $wpdb->get_results($wpdb->prepare(
 //                            "SELECT t.name
@@ -205,4 +206,15 @@ class H5pController extends Controller {
         $content->destory();
     }
 
+    private function get_disabled_content_features($core, &$content) {
+        $h5p = App::make('LaravelH5p');
+        $core = $h5p::$core;
+        $set = array(
+            H5PCore::DISPLAY_OPTION_FRAME => filter_input(INPUT_POST, 'frame', FILTER_VALIDATE_BOOLEAN),
+            H5PCore::DISPLAY_OPTION_DOWNLOAD => filter_input(INPUT_POST, 'download', FILTER_VALIDATE_BOOLEAN),
+            H5PCore::DISPLAY_OPTION_EMBED => filter_input(INPUT_POST, 'embed', FILTER_VALIDATE_BOOLEAN),
+            H5PCore::DISPLAY_OPTION_COPYRIGHT => filter_input(INPUT_POST, 'copyright', FILTER_VALIDATE_BOOLEAN),
+        );
+        $content['disable'] = $core->getStorableDisplayOptions($set, $content['disable']);
+    }
 }

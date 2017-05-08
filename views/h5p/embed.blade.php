@@ -8,67 +8,14 @@
 
         <div class="col-md-12">
 
-            <p class="form-control-static">
-                {{ trans('laravel-h5p-trans::laravel-h5p.search-result', ['count' => number_format($contents->total())]) }}
+            {!! $embed_code  !!}
+
+            <br/>
+            <p class='text-center'>
+
+                <a href="{{ url()->previous() }}" class="btn btn-default"><i class="fa fa-reply"></i> {{ trans('laravel-h5p::laravel-h5p.content.cancel') }}</a>
+
             </p>
-
-            <table class="table text-center">
-                <colgroup>
-                    <col width="10%">
-                    <col width="25%">
-                    <col width="*"> 
-                    <col width="20%">
-                </colgroup>
-
-                <thead>
-                    <tr class="active">
-                        <th class="text-center">#</th>
-                        <th class="text-center">GROUP</th>                        
-                        <th class="text-center">NAME</th>
-                        <th class="text-center">수정일</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    @unless(count($contents) >0)
-                    <tr><td colspan="3" class="no-result">{{ trans('common.no-result') }}</td></tr>
-                    @endunless
-
-                    @foreach($contents as $n => $data)
-                    <tr>
-                        <td>
-                            {{ $data->id }}
-                        </td>
-                        <td class="">
-                            {{ $data->group }}
-                        </td>
-
-                        <td>
-                            {{ $data->name }}
-                        </td>
-
-                        <td>
-                            {{ $data->updated_at }}
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-
-        </div>
-
-    </div>
-
-
-    <div class="row">
-
-        <div class="col-sm-6">
-
-        </div>
-
-        <div class="col-sm-6 text-right">
-            {!! $contents->render() !!}
         </div>
 
     </div>
@@ -77,9 +24,21 @@
 
 @endsection
 
+@section( 'header-script' )
+
+{{--    core styles       --}}
+@foreach($settings['core']['styles'] as $style)
+{{ Html::style($style) }}
+@endforeach
 
 @section( 'footer-script' )
 <script type="text/javascript">
-
+    H5PIntegration = {!! json_encode($settings) !!};
 </script>
+
+{{--    core script       --}}
+@foreach($settings['core']['scripts'] as $script)
+{{ Html::script($script) }}
+@endforeach
+
 @endsection
