@@ -116,7 +116,7 @@ class LaravelH5p {
     }
 
     public static function get_play($content) {
-
+        
     }
 
     public static function get_core($settings = array()) {
@@ -405,4 +405,5 @@ class LaravelH5p {
     public static function get_language() {
         return config('laravel-h5p.language');
     }
+
 }

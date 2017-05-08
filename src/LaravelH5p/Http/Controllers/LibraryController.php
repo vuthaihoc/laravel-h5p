@@ -26,11 +26,6 @@ class LibraryController extends Controller {
         $interface = $h5p::$interface;
         $not_cached = $interface->getNumNotFiltered();
 
-//        dd($not_cached);
-////        $display_options = $core->getDisplayOptionsForEdit('');
-//        // view 에서 출력할 파일과 세팅을 가져온다
-//        $libraries = $interface->loadLibraries();
-
         $entrys = H5pLibrary::get();
         $settings = $h5p::get_core(array(
                     'libraryList' => [

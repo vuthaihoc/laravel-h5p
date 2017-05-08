@@ -171,43 +171,6 @@ class H5pController extends Controller {
         return redirect()
                         ->route('h5p.edit', $content['id'])
                         ->with('success', trans('laravel-h5p::laravel-h5p.content.updated'));
-
-//        $content = $request->all();
-//        $content['updated_at'] = \Carbon\Carbon::now();
-////        $content['created_at'] = \Carbon\Carbon::now();
-//        $content['embed_type'] = 'div';
-//        $content['embedType'] = $content['embed_type'];
-//        $content['user_id'] = Auth::id();
-//        $content['filtered'] = $request->get('filtered') ? $request->get('filtered') : '';
-//        $content['disable'] = $request->get('disable') ? $request->get('disable') : false;
-//        $content['slug'] = config('laravel-h5p.slug');
-//        $content['library'] = $core->libraryFromString($request->get('library'));
-//        $content['library_id'] = $core->h5pF->getLibraryId($content['library']['machineName'], $content['library']['majorVersion'], $content['library']['minorVersion']);
-//        $content = $request->all();
-////        $content['updated_at'] = \Carbon\Carbon::now();
-//        $content['created_at'] = \Carbon\Carbon::now();
-//        $content['embed_type'] = 'div';
-//        $content['user_id'] = Auth::id();
-//        $content['filtered'] = '';
-//        $content['disable'] = $request->get('disable') ? $request->get('disable') : false;
-//        $content['slug'] = config('laravel-h5p.slug');
-//        $content['library'] = $core->libraryFromString($request->get('library'));
-//        $content['library_id'] = $core->h5pF->getLibraryId($content['library']['machineName'], $content['library']['majorVersion'], $content['library']['minorVersion']);
-//        $content['id'] = $id;
-//
-//        // Save new content
-//        $core->saveContent($content);
-//        $core->filterParameters($content);
-//
-//        $event_type = 'update';
-//        if ($request->hasFile('h5p_file')) {
-//            $event_type .= ' upload';
-//        }
-//
-//        event(new H5PEvent('content', $event_type, $content['id'], $content['title'], $content['library']['machineName'], $content['library']['majorVersion'], $content['library']['minorVersion']));
-//        return redirect()
-//                        ->route('laravel-h5p.library.edit', $content->id)
-//                        ->with('success', trans('laravel-h5p::laravel-h5p.h5p.updated'));
     }
 
     public function show(Request $request, $id) {
@@ -231,7 +194,6 @@ class H5pController extends Controller {
 
         $settings = $h5p::get_core();
         $embed_code = $h5p->get_embed($content, $settings);
-//        H5P_Plugin::get_instance()->add_settings();
 
         event(new H5PEvent('content', NULL, $content['id'], $content['title'], $content['library']['name'], $content['library']['majorVersion'], $content['library']['minorVersion']));
 
@@ -263,90 +225,4 @@ class H5pController extends Controller {
 //        return view('laravel-h5p::h5p.embed', compact("entry"));
     }
 
-    //---------------------------------------------------------------------------------------------
-
-    /**
-     * Add assets and JavaScript settings for the editor.
-     *
-     * @since 1.1.0
-     * @param int $id optional content identifier
-     */
-//    public function add_editor_assets($id = NULL) {
-//        $plugin = LaravelH5p::get_instance();
-//        $plugin->add_core_assets();
-//        // Make sure the h5p classes are loaded
-//        $plugin->get_h5p_instance('core');
-//        $this->get_h5peditor_instance();
-//        // Add JavaScript settings
-//        $settings = $plugin->get_settings();
-//        $cache_buster = '?ver=' . LaravelH5p::VERSION;
-//        // Use jQuery and styles from core.
-//        $assets = array(
-//            'css' => $settings['core']['styles'],
-//            'js' => $settings['core']['scripts']
-//        );
-//        // Use relative URL to support both http and https.
-//        $upload_dir = plugins_url('h5p/h5p-editor-php-library');
-//        $url = '/' . preg_replace('/^[^:]+:\/\/[^\/]+\//', '', $upload_dir) . '/';
-//        // Add editor styles
-//        foreach (H5peditor::$styles as $style) {
-//            $assets['css'][] = $url . $style . $cache_buster;
-//        }
-//        // Add editor JavaScript
-//        foreach (H5peditor::$scripts as $script) {
-//            // We do not want the creator of the iframe inside the iframe
-//            if ($script !== 'scripts/h5peditor-editor.js') {
-//                $assets['js'][] = $url . $script . $cache_buster;
-//            }
-//        }
-//        // Add JavaScript with library framework integration (editor part)
-//        LaravelH5p_Admin::add_script('editor-editor', 'h5p-editor-php-library/scripts/h5peditor-editor.js');
-//        LaravelH5p_Admin::add_script('editor', 'admin/scripts/h5p-editor.js');
-//        // Add translation
-//        $language = $plugin->get_language();
-//        $language_script = 'h5p-editor-php-library/language/' . $language . '.js';
-//        if (!file_exists(plugin_dir_path(__FILE__) . '../' . $language_script)) {
-//            $language_script = 'h5p-editor-php-library/language/en.js';
-//        }
-//        LaravelH5p_Admin::add_script('language', $language_script);
-//        // Add JavaScript settings
-//        $content_validator = $plugin->get_h5p_instance('contentvalidator');
-//        $settings['editor'] = array(
-//            'filesPath' => $plugin->get_h5p_url() . '/editor',
-//            'fileIcon' => array(
-//                'path' => plugins_url('h5p/h5p-editor-php-library/images/binary-file.png'),
-//                'width' => 50,
-//                'height' => 50,
-//            ),
-//            'ajaxPath' => admin_url('admin-ajax.php?token=' . wp_create_nonce('h5p_editor_ajax') . '&action=h5p_'),
-//            'libraryUrl' => plugin_dir_url('h5p/h5p-editor-php-library/h5peditor.class.php'),
-//            'copyrightSemantics' => $content_validator->getCopyrightSemantics(),
-//            'assets' => $assets,
-//            'deleteMessage' => __('Are you sure you wish to delete this content?', $this->plugin_slug),
-//            'apiVersion' => H5PCore::$coreApi
-//        );
-//        if ($id !== NULL) {
-//            $settings['editor']['nodeVersionId'] = $id;
-//        }
-//        
-//        var_dump($settings);
-////        $plugin->print_settings($settings);
-//    }
-
-    /**
-     * Returns the instance of the h5p editor library.
-     *
-     * @since 1.1.0
-     * @return \H5peditor
-     */
-//    private function get_h5peditor_instance() {
-//        if (self::$h5peditor === null) {
-//            $upload_dir = storage_path('h5p');
-//            $plugin = LaravelH5p::get_instance();
-//            self::$h5peditor = new H5peditor(
-//                    $plugin->get_h5p_instance('core'), new LaravelH5pEditorStorage()
-//            );
-//        }
-//        return self::$h5peditor;
-//    }
 }

@@ -70,7 +70,6 @@ class AjaxController extends Controller {
             $file = $request->file('h5p_file');
             $new_name = $file->getExtension() . "." . time() . "." . str_random();
             $file->move($path, $new_name);
-//            $image = Image::make(sprintf('uploads/%s', $image_name))->resize(200, 200)->save();
 
             return url('/upload/' . $path . $new_name);
         }

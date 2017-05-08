@@ -12,19 +12,8 @@
 
 namespace Chali5124\LaravelH5p\Repositories;
 
-//use Chali5124\LaravelH5p\Eloquents\H5pContent;
-//use Chali5124\LaravelH5p\Eloquents\H5pContentsLibrary;
-//use Chali5124\LaravelH5p\Eloquents\H5pContentsTag;
-//use Chali5124\LaravelH5p\Eloquents\H5pContentsUserData;
-//use Chali5124\LaravelH5p\Eloquents\H5pCounter;
-//use Chali5124\LaravelH5p\Eloquents\H5pLibrariesCachedasset;
-//use Chali5124\LaravelH5p\Eloquents\H5pLibrariesLanguage;
-//use Chali5124\LaravelH5p\Eloquents\H5pLibrariesLibrary;
-//use Chali5124\LaravelH5p\Eloquents\H5pLibrary;
-//use Chali5124\LaravelH5p\Eloquents\H5pLibrary;
 use Illuminate\Support\Facades\App;
 use H5PFrameworkInterface;
-//use Chali5124\LaravelH5p\Eloquents;
 use Chali5124\LaravelH5p\Helpers\H5pHelper;
 use GuzzleHttp\Client;
 use DB;
@@ -449,14 +438,6 @@ class LaravelH5pRepository implements H5PFrameworkInterface {
         }
         foreach ($librariesInUse as $dependency) {
             $dropCss = in_array($dependency['library']['machineName'], $dropLibraryCssList) ? 1 : 0;
-//            var_dump(array(
-//                'content_id' => $contentId,
-//                'library_id' => $dependency['library']['libraryId'],
-//                'dependency_type' => $dependency['type'],
-//                'drop_css' => $dropCss,
-//                'weight' => $dependency['weight']
-//            ));
-
             DB::table('h5p_contents_libraries')->insert(array(
                 'content_id' => strval($contentId),
                 'library_id' => $dependency['library']['libraryId'],
@@ -464,13 +445,6 @@ class LaravelH5pRepository implements H5PFrameworkInterface {
                 'drop_css' => $dropCss,
                 'weight' => $dependency['weight']
             ));
-//            H5pContentsLibrary::create(array(
-//                'content_id' => strval($contentId),
-//                'library_id' => $dependency['library']['libraryId'],
-//                'dependency_type' => $dependency['type'],
-//                'drop_css' => $dropCss,
-//                'weight' => $dependency['weight']
-//            ));
         }
     }
 
@@ -657,15 +631,7 @@ class LaravelH5pRepository implements H5PFrameworkInterface {
     public function updateContentFields($id, $fields) {
 
         $processedFields = array();
-//        $format = array();
         foreach ($fields as $name => $value) {
-//            if (is_int($value)) {
-//                $format[] = '%d'; // Int
-//            } else if (is_float($value)) {
-//                $format[] = '%f'; // Float
-//            } else {
-//                $format[] = '%s'; // String
-//            }
             $processedFields[self::camelToString($name)] = $value;
         }
         DB::table('h5p_contents')->where('id', $id)->update($processedFields);
