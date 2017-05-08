@@ -108,7 +108,7 @@ class LaravelH5p {
     }
 
     public static function get_laravelh5p_url($path = '') {
-        return '/vendor/laravel-h5p' . $path;
+        return url('/vendor/laravel-h5p' . $path);
     }
 
     public static function get_service_url($path = '') {

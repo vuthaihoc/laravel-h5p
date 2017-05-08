@@ -215,6 +215,9 @@ class LaravelH5pRepository implements H5PFrameworkInterface {
         if (!isset($library['fullscreen'])) {
             $library['fullscreen'] = 0;
         }
+        if (!isset($library['tutorial_url'])) {
+            $library['tutorial_url'] = '';
+        }
         if (!isset($library['hasIcon'])) {
             $library['hasIcon'] = 0;
         }
@@ -234,6 +237,7 @@ class LaravelH5pRepository implements H5PFrameworkInterface {
                 'preloaded_css' => $preloadedCss,
                 'drop_library_css' => $dropLibraryCss,
                 'semantics' => $library['semantics'],
+                'tutorial_url' => $library['tutorial_url'],
                 'has_icon' => $library['hasIcon'] ? 1 : 0
             ));
         } else {

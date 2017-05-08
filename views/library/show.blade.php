@@ -1,8 +1,7 @@
-@extends( 'laravel-h5p::layouts.app' )
+@extends( config('laravel-h5p.layout') )
 
 @section( 'content' )
-<div class="container">
-
+<div class="container-fluid">
     <div class="row">
 
         <div class="col-md-12">

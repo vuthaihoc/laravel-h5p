@@ -13,7 +13,8 @@ Route::group(['middleware' => ['web']], function () {
         Route::post('h5p-library/clear', "Chali5124\LaravelH5p\Http\Controllers\LibraryController@clear")->name("laravel-h5p.library.clear");
     });
 
-    Route::get('embed', 'Chali5124\LaravelH5p\Http\Controllers\EmbedController')->name("h5p.embed");
+    Route::get('h5p/embed/{id}', 'Chali5124\LaravelH5p\Http\Controllers\EmbedController')->name("h5p.embed");
+    Route::get('h5p/download/{id}', 'Chali5124\LaravelH5p\Http\Controllers\EmbedController')->name("h5p.donwload");
 
     Route::match(['GET', 'POST'], 'ajax/libraries', 'Chali5124\LaravelH5p\Http\Controllers\AjaxController@libraries')->name("h5p.ajax.libraries");
     Route::get('ajax/libraries', 'Chali5124\LaravelH5p\Http\Controllers\AjaxController@libraries')->name("h5p.ajax.libraries");
@@ -26,11 +27,10 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('ajax/content-user-data', 'Chali5124\LaravelH5p\Http\Controllers\AjaxController@contentUserData')->name("h5p.ajax.content-user-data");
     Route::get('ajax', 'Chali5124\LaravelH5p\Http\Controllers\AjaxController')->name("h5p.ajax");
 
-    //== 인덱스여부에 따라 삭제가
-    Route::get('/home', function() {
-        return redirect('/');
-    });
-    Route::get('/', function() {
-        return view('laravel-h5p::welcome');
-    });
+
+    if (config('laravel-h5p.H5P_DEV')) {
+        Route::get('/', function() {
+            return view('laravel-h5p::welcome');
+        });
+    }
 });

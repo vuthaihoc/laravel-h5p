@@ -17,6 +17,7 @@ return [
     'domain' => 'http://localhost',
     'h5p_public_path' => '/vendor',
     'slug' => 'laravel-h5p',
+    'layout' => 'admin.layouts.default',
     'H5P_DISABLE_AGGREGATION' => FALSE,
     'h5p_frame' => TRUE,
     'h5p_export' => TRUE,

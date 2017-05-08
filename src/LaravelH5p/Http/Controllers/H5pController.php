@@ -205,24 +205,4 @@ class H5pController extends Controller {
         $content->destory();
     }
 
-    public function download(Request $request, $id) {
-        $content = H5pContent::findOrFail($id);
-        $content->update($request->all());
-
-        $event_type = 'update';
-
-        if ($request->uploaded) {
-            $event_type .= ' upload';
-        }
-
-        event(new H5P_Event('content', $event_type, $content->id, $content->title, $content->library->machineName, $content->library->majorVersion, $content->library->minorVersion));
-        return redirect()
-                        ->route('laravel-h5p.library.update', $content->id)
-                        ->with('success', trans('laravel-h5p::laravel-h5p.h5p.created'));
-    }
-
-    public function embed(Request $request, $id) {
-//        return view('laravel-h5p::h5p.embed', compact("entry"));
-    }
-
 }

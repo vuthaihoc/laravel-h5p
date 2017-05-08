@@ -151,7 +151,7 @@ class LibraryController extends Controller {
     public function store(Request $request) {
 
         $this->validate($request, [
-            'h5p_file' => 'required||size:50000',
+            'h5p_file' => 'required||max:50000',
         ]);
 
         if ($request->hasFile('h5p_file') && $request->file('h5p_file')->isValid()) {
