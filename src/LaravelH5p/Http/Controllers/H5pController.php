@@ -34,6 +34,7 @@ class H5pController extends Controller {
         $parameters = '{}';
 
         $display_options = $core->getDisplayOptionsForEdit('');
+        dd($display_options);
 
         // view 에서 출력할 파일과 세팅을 가져온다
         $settings = $h5p::get_editor();
@@ -51,13 +52,11 @@ class H5pController extends Controller {
         $this->validate($request, [
             'title' => 'required|max:250',
             'library' => 'required',
-            'parameters' => 'required',
-            'content_type' => 'required',
+            'parameters' => 'required'
                 ], [
             'title' => trans('laravel-h5p::laravel-h5p.content.title'),
             'library' => trans('laravel-h5p::laravel-h5p.content.library'),
-            'parameters' => trans('laravel-h5p::laravel-h5p.content.parameters'),
-            'content_type' => trans('laravel-h5p::laravel-h5p.content.content_type')
+            'parameters' => trans('laravel-h5p::laravel-h5p.content.parameters')
         ]);
         
         $h5p = App::make('LaravelH5p');
@@ -106,8 +105,8 @@ class H5pController extends Controller {
 
         $this->validate($request, [
             'title' => 'required|max:250',
-            'library' => 'library',
-            'parameters' => 'parameters',
+            'library' => 'required',
+            'parameters' => 'required'
                 ], [
             'title' => trans('laravel-h5p::laravel-h5p.content.title'),
             'library' => trans('laravel-h5p::laravel-h5p.content.library'),
