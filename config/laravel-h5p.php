@@ -15,6 +15,7 @@ return [
     'H5P_DEV' => FALSE,
     'language' => 'en',
     'domain' => 'http://localhost',
+    'h5p_public_path' => '/vendor',
     'slug' => 'laravel-h5p',
     'H5P_DISABLE_AGGREGATION' => FALSE,
     'h5p_frame' => TRUE,
