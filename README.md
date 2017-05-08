@@ -9,12 +9,11 @@ composer require chali5124/laravel-h5p
 ```
 
 ```bash
-php artisan migrate
+php artisan vendor:publish
 ```
 
-
 ```bash
-php artisan vendor:publish
+php artisan migrate
 ```
 
 ```php
