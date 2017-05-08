@@ -4,20 +4,18 @@ Copyright (c) 2016, chali5124@gmail.com. All rights reserved.
 
 ## Installation
 
-Begin by pulling in the package through Composer.
-
 ```bash
 composer require chali5124/laravel-h5p
 ```
 
-Next, include the service provider within your `config/app.php` file.
-
-```php
-'providers' => [
-    Chali5124\LaravelH5p\LaravelH5pServiceProvider::class,
-];
+```bash
+php artisan migrate
 ```
 
+
+```bash
+php artisan vendor:publish
+```
 
 ```php
 'classmap': [
@@ -32,6 +30,17 @@ Next, include the service provider within your `config/app.php` file.
     "vendor/h5p/h5p-editor/h5peditor-storage.interface.php",
     "vendor/h5p/h5p-editor/h5peditor.class.php"
 ],
-
 ```
+
+```php
+'providers' => [
+    Chali5124\LaravelH5p\LaravelH5pServiceProvider::class,
+];
+```
+
+```bash
+cd public/vendor;
+ln -s ../../storage/h5p/libraries 
+```
+
 On Development...
