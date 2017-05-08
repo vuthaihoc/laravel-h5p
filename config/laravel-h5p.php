@@ -11,8 +11,6 @@
  */
 
 return [
-//    'locale' => 'ko',
-//    'fallback_locale' => 'ko',
 
     'H5P_DEV' => FALSE,
     'language' => 'en',

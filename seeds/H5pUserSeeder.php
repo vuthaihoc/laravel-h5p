@@ -11,8 +11,8 @@ class H5pUserSeeder extends Seeder {
      */
     public function run() {
         DB::table('users')->insert([
-            'name' => "User Creator",
-            'email' => 'user@2by.kr',
+            'name' => "H5P Creator",
+            'email' => 'h5p@2by.kr',
             'password' => bcrypt('asd#123'),
         ]);
     }

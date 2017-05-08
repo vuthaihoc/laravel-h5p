@@ -7,9 +7,7 @@
 
         <div class="col-md-12">
 
-
             {!! $embed_code  !!}
-
 
             <br/>
             <p class='text-center'>

@@ -9,7 +9,8 @@
         }
     ],
     "license": "MIT",
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
     "autoload": {
         "classmap": [
             "vendor/h5p/h5p-core",

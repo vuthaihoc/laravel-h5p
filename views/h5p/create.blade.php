@@ -41,14 +41,6 @@
                     </div>
                 </div>
 
-                <!--
-                <div class="form-item form-type-file form-item-files-h5p" style="display: none;">
-                <label for="edit-h5p">HTML 5 Package </label>
-                <input type="file" id="edit-h5p" name="files[h5p]" size="60" class="form-file">
-                <div class="description">Select a .h5p file to upload and create interactive content from. You may start with the <a href="http://h5p.org/content-types-and-applications" target="_blank">example files</a> on H5P.org</div>
-                </div>
-                -->
-
                 <div class="form-group laravel-h5p-upload-container">
                     <label for="inputContentType" class="control-label col-md-3">{{ trans('laravel-h5p::laravel-h5p.content.upload') }}</label>
                     <div class="col-md-9">
