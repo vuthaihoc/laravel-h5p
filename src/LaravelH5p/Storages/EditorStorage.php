@@ -131,7 +131,7 @@ class EditorStorage implements H5peditorStorage {
 
     public static function markFileForCleanup($file, $content_id) {
         $h5p = App::make('LaravelH5p');
-        $path = $h5p->get_h5p_path();
+        $path = $h5p->get_h5p_storage();
         if (empty($content_id)) {
             // Should be in editor tmp folder
             $path .= '/editor';

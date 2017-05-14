@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ config('app.locale') }}">
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,22 +9,16 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>{{ config('app.name', 'Laravel') }}</title>
-
+        
         <script>
-            window.Laravel = <?php
-echo json_encode([
-    'csrfToken' => csrf_token(),
-]);
-?>
+            window.Laravel = <?php echo json_encode([ 'csrfToken' => csrf_token() ]); ?>
         </script>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
-
         <link rel="stylesheet" href="{{ url('/assets/css/app.css') }}"/>
 
-        @stack('header-script')
-        <link rel="stylesheet" href="{{ url('/vendor/laravel-h5p/css/laravel-h5p.css') }}"/>
+        @stack('h5p-header-script')
 
         <!-- Styles -->
         <style>
@@ -73,24 +67,6 @@ echo json_encode([
     </head>
 
     <body>
-
-        <div class="flash-message" style="margin:0px;">
-            @if ($message = Session::get('success'))
-            <div class="alert alert-success alert-block">
-                <button type="button" class="close" data-dismiss="alert">×</button>	
-                <strong>{{ $message }}</strong>
-            </div>
-            @endif
-
-            @if ($message = Session::get('error'))
-            <div class="alert alert-danger alert-block">
-                <button type="button" class="close" data-dismiss="alert">×</button>	
-                <strong>{{ $message }}</strong>
-            </div>
-            @endif
-        </div>
-
-
 
         <div  id="app" 
               @if (Route::has('welcome'))
@@ -159,13 +135,12 @@ echo json_encode([
                 </div>
             </nav>
 
-
-            @yield('content')
+            @yield('h5p')
 
         </div>
         
         <script type="text/javascript" src="{{ url('/assets/js/app.js') }}"></script>        
-        @stack('footer-script')
+        @stack('h5p-footer-script')
 
     </body>
 </html>

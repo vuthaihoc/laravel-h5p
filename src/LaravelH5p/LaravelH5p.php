@@ -52,7 +52,7 @@ class LaravelH5p {
     public function __construct() {
 
         self::$interface = new LaravelH5pRepository();
-        self::$core = new H5PCore(self::$interface, self::get_h5p_storage(), self::get_h5p_url(), config("laravel-h5p.language"), config('laravel-h5p.h5p_export'));
+        self::$core = new H5PCore(self::$interface, self::get_h5p_storage('', TRUE), self::get_h5p_url(), config("laravel-h5p.language"), config('laravel-h5p.h5p_export'));
         self::$core->aggregateAssets = config('laravel-h5p.H5P_DISABLE_AGGREGATION');
         self::$validator = new H5PValidator(self::$interface, self::$core);
         self::$storage = new H5PStorage(self::$interface, self::$core);
@@ -80,12 +80,25 @@ class LaravelH5p {
         );
     }
 
-    public static function get_h5p_storage() {
-        return new LaravelH5pStorage(storage_path('h5p'));
+    public static function get_url($path = '') {
+        return url('/assets/vendor' . $path);
+    }
+
+    public static function get_h5p_storage($path = '', $absolute = FALSE) {
+        if ($absolute) {
+            return new LaravelH5pStorage(storage_path('h5p' . $path));
+//            return storage_path('h5p' . $path);
+        } else {
+            return url('/assets/vendor/h5p' . $path);
+        }
+    }
+
+    public static function get_laravelh5p_url($path = '') {
+        return self::get_url('/laravel-h5p' . $path);
     }
 
     public static function get_h5p_url($path = '') {
-        return url('/vendor/h5p' . $path);
+        return self::get_url('/h5p' . $path);
     }
 
     public static function get_h5pcore_url($path = '') {
@@ -107,16 +120,8 @@ class LaravelH5p {
         }
     }
 
-    public static function get_laravelh5p_url($path = '') {
-        return url('/vendor/laravel-h5p' . $path);
-    }
-
     public static function get_service_url($path = '') {
         return route('h5p.index', [], false);
-    }
-
-    public static function get_play($content) {
-        
     }
 
     public static function get_core($settings = array()) {
@@ -173,7 +178,7 @@ class LaravelH5p {
     private static function get_core_settings() {
         $settings = array(
             'baseUrl' => config('laravel-h5p.domain'),
-            'url' => self::get_service_url(),
+            'url' => self::get_h5p_storage(), // for uploaded
             'postUserStatistics' => (config('laravel-h5p.h5p_track_user', TRUE) === '1') && Auth::check(),
             'ajax' => array(
                 'setFinished' => route('h5p.ajax.finish'),
@@ -205,12 +210,19 @@ class LaravelH5p {
             'styles' => array(),
             'scripts' => array()
         );
+        
+        $settings['core']['styles'][] = self::get_laravelh5p_url('/css/laravel-h5p.css');
+            
         foreach (H5PCore::$styles as $style) {
             $settings['core']['styles'][] = self::get_h5pcore_url('/' . $style);
         }
         foreach (H5PCore::$scripts as $script) {
             $settings['core']['scripts'][] = self::get_h5pcore_url('/' . $script);
         }
+
+        $settings['core']['scripts'][] = self::get_h5peditor_url('/scripts/h5peditor-editor.js');
+
+        $settings['core']['scripts'][] = self::get_laravelh5p_url('/js/laravel-h5p.js');
 
         return $settings;
     }
@@ -219,22 +231,23 @@ class LaravelH5p {
 
         $settings = self::get_core_settings();
         $settings['editor'] = array(
-            'filesPath' => self::get_h5peditor_url(),
+            'filesPath' => self::get_h5p_storage(),
             'fileIcon' => array(
                 'path' => self::get_h5peditor_url('/images/binary-file.png'),
                 'width' => 50,
                 'height' => 50,
             ),
             'ajaxPath' => route('h5p.ajax') . '/',
-            'libraryUrl' => self::get_h5peditor_url(), //plugin_dir_url('h5p/h5p-editor-php-library/h5peditor.class.php'),
+            'libraryUrl' => self::get_h5plibrary_url(), //plugin_dir_url('h5p/h5p-editor-php-library/h5peditor.class.php'),
             'copyrightSemantics' => self::$contentvalidator->getCopyrightSemantics(),
             'assets' => [],
             'deleteMessage' => trans('laravel-h5p::laravel-h5p.content.destoryed'),
             'apiVersion' => H5PCore::$coreApi
         );
 
+        // 컨텐츠
         if ($content !== NULL) {
-            $settings['editor']['nodeVersionId'] = $content;
+            $settings['editor']['nodeVersionId'] = $content['id'];
         }
         return $settings;
     }
@@ -259,6 +272,9 @@ class LaravelH5p {
                 $settings["editor"]['assets']['js'][] = self::get_h5peditor_url('/' . $script);
             }
         }
+
+        $language_script = '/language/' . self::get_language() . '.js';
+        $settings["editor"]['assets']['js'][] = self::get_h5peditor_url($language_script);
 
         if ($content) {
             $settings = self::get_content_files($settings, $content);

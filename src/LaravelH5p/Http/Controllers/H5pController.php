@@ -14,6 +14,7 @@ use Chali5124\LaravelH5p\Events\H5pEvent;
 use Chali5124\LaravelH5p\Eloquents\H5pContent;
 use Chali5124\LaravelH5p\Http\Requests\PostH5pContent;
 use Chali5124\LaravelH5p\Eloquents\H5pLibrary;
+use Illuminate\Support\Facades\Validator;
 
 class H5pController extends Controller {
 
@@ -21,7 +22,7 @@ class H5pController extends Controller {
 
         $where = H5pContent::orderBy('id', 'desc');
         $entrys = $where->paginate(10);
-        return view('laravel-h5p::h5p.index', compact("entrys"));
+        return view('h5p.content.index', compact("entrys"));
     }
 
     public function create(Request $request) {
@@ -34,7 +35,7 @@ class H5pController extends Controller {
         $parameters = '{}';
 
         $display_options = $core->getDisplayOptionsForEdit('');
-        
+
         // view 에서 출력할 파일과 세팅을 가져온다
         $settings = $h5p::get_editor();
 
@@ -42,22 +43,22 @@ class H5pController extends Controller {
         event(new H5pEvent('content', 'new'));
 
         $user = Auth::user();
-        return view('laravel-h5p::h5p.create', compact("settings", 'user', 'library', 'parameters', 'display_options'));
+        return view('h5p.content.create', compact("settings", 'user', 'library', 'parameters', 'display_options'));
     }
 
-//    public function store(PostH5pContent $request) {
     public function store(Request $request) {
-        
-//        $this->validate($request, [
-//            'title' => 'required|max:250',
-//            'library' => 'required',
-//            'parameters' => 'required'
-//                ], [
-//            'title' => trans('laravel-h5p::laravel-h5p.content.title'),
-//            'library' => trans('laravel-h5p::laravel-h5p.content.library'),
-//            'parameters' => trans('laravel-h5p::laravel-h5p.content.parameters')
-//        ]);
-        
+        $this->validate($request, [
+            'title' => 'required|max:250',
+            'library' => 'required',
+            'parameters' => 'required',
+            'action' => 'required|in:create,action',
+                ], [], [
+            'title' => trans('laravel-h5p.content.title'),
+            'library' => trans('laravel-h5p.content.library'),
+            'parameters' => trans('laravel-h5p.content.parameters'),
+            'action' => trans('laravel-h5p.content.action'),
+        ]);
+
         $h5p = App::make('LaravelH5p');
         $core = $h5p::$core;
 
@@ -77,8 +78,8 @@ class H5pController extends Controller {
         $content['slug'] = config('laravel-h5p.slug');
         $content['title'] = $request->get('title');
         $content['parameters'] = $request->get('parameters');
-        $content['params'] = $request->get('parameters');
-        $params = json_decode($content['params']);
+//        $content['params'] = $request->get('parameters');
+        $params = json_decode($content['parameters']);
         $this->get_disabled_content_features($core, $content);
 
         // Save new content
@@ -97,7 +98,7 @@ class H5pController extends Controller {
 
         return redirect()
                         ->route('h5p.edit', $content['id'])
-                        ->with('success', trans('laravel-h5p::laravel-h5p.content.created'));
+                        ->with('success', trans('laravel-h5p.content.created'));
     }
 
     public function edit(Request $request, $id) {
@@ -107,9 +108,9 @@ class H5pController extends Controller {
 //            'library' => 'required',
 //            'parameters' => 'required'
 //                ], [
-//            'title' => trans('laravel-h5p::laravel-h5p.content.title'),
-//            'library' => trans('laravel-h5p::laravel-h5p.content.library'),
-//            'parameters' => trans('laravel-h5p::laravel-h5p.content.parameters')
+//            'title' => trans('laravel-h5p.content.title'),
+//            'library' => trans('laravel-h5p.content.library'),
+//            'parameters' => trans('laravel-h5p.content.parameters')
 //        ]);
 
         $h5p = App::make('LaravelH5p');
@@ -128,7 +129,7 @@ class H5pController extends Controller {
         event(new H5pEvent('content', 'edit', $content['id'], $content['title'], $content['library']['name'], $content['library']['majorVersion'] . '.' . $content['library']['minorVersion']));
 
         $user = Auth::user();
-        return view('laravel-h5p::h5p.edit', compact("settings", 'user', 'id', 'content', 'library', 'parameters', 'display_options'));
+        return view('h5p.content.edit', compact("settings", 'user', 'id', 'content', 'library', 'parameters', 'display_options'));
     }
 
     public function update(Request $request, $id) {
@@ -170,34 +171,22 @@ class H5pController extends Controller {
 
         return redirect()
                         ->route('h5p.edit', $content['id'])
-                        ->with('success', trans('laravel-h5p::laravel-h5p.content.updated'));
+                        ->with('success', trans('laravel-h5p.content.updated'));
     }
 
     public function show(Request $request, $id) {
         $h5p = App::make('LaravelH5p');
         $core = $h5p::$core;
-
-        $content = $h5p->get_content($id);
-
-//        if (!is_string($content)) {
-//            $tags = $wpdb->get_results($wpdb->prepare(
-//                            "SELECT t.name
-//             FROM {$wpdb->prefix}h5p_contents_tags ct
-//             JOIN {$wpdb->prefix}h5p_tags t ON ct.tag_id = t.id
-//            WHERE ct.content_id = %d", $id
-//            ));
-//            $this->content['tags'] = '';
-//            foreach ($tags as $tag) {
-//                $content['tags'] .= ($this->content['tags'] !== '' ? ', ' : '') . $tag->name;
-//            }
-//        }
-
+        
         $settings = $h5p::get_core();
+        
+        $content = $h5p->get_content($id);
+        
         $embed_code = $h5p->get_embed($content, $settings);
 
         event(new H5pEvent('content', NULL, $content['id'], $content['title'], $content['library']['name'], $content['library']['majorVersion'], $content['library']['minorVersion']));
 
-        return view('laravel-h5p::h5p.show', compact("settings", 'user', 'embed_code'));
+        return view('h5p.content.show', compact("settings", 'user', 'embed_code'));
     }
 
     public function destroy(Request $request, $id) {

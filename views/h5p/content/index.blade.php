@@ -1,7 +1,6 @@
 @extends( config('laravel-h5p.layout') )
 
-
-@section( 'content' )
+@section( 'h5p' )
 <div class="container-fluid">
 
     <div class="row">
@@ -9,16 +8,16 @@
         <div class="col-md-12">
             <div class="form-group">
                 <p class="form-control-static">
-                    {{ trans('laravel-h5p::laravel-h5p.content.search-result', ['count' => number_format($entrys->total())]) }}
+                    {{ trans('laravel-h5p.content.search-result', ['count' => number_format($entrys->total())]) }}
 
-                    <a href="{{ route("h5p.create") }}" class="btn btn-primary pull-right">{{ trans('laravel-h5p::laravel-h5p.content.create') }}</a>
+                    <a href="{{ route("h5p.create") }}" class="btn btn-primary pull-right">{{ trans('laravel-h5p.content.create') }}</a>
                 </p>
             </div>
 
         </div>
 
     </div>
-
+    
     <div class="row">
 
         <div class="col-md-12">
@@ -46,7 +45,7 @@
                 <tbody>
 
                     @unless(count($entrys) >0)
-                    <tr><td colspan="5" class="h5p-noresult">{{ trans('laravel-h5p::laravel-h5p.content.no-result') }}</td></tr>
+                    <tr><td colspan="5" class="h5p-noresult">{{ trans('laravel-h5p.content.no-result') }}</td></tr>
                     @endunless
 
                     @foreach($entrys as $n => $entry)
@@ -83,7 +82,7 @@
 
     <div class="row">
 
-        <div class="col-md-12 text-center">
+        <div class="col-md-12 text-center" style='margin-top:20px;'>
             {!! $entrys->render() !!}
         </div>
 
@@ -94,8 +93,10 @@
 @endsection
 
 
-@section( 'footer-script' )
-<script type="text/javascript">
+@push( 'h5p-header-script' )
+@endpush
 
-</script>
-@endsection
+@push( 'h5p-footer-script' )
+    <script type="text/javascript">
+    </script>
+@endpush

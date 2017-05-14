@@ -64,7 +64,7 @@
                     $params.val(JSON.stringify(params));
                 }
             }
-            
+
             console.log($params.val());
 
             $(this).attr('disabled', true);
@@ -106,6 +106,7 @@
         return url + request_params.join('&');
     };
 
-    $(document).ready(ns.init);
 
+    $(document).ready(ns.init);
+    
 })(H5P.jQuery);

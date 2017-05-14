@@ -304,6 +304,7 @@ class LaravelH5pStorage implements H5PFileStorage {
             $path = $this->path . '/content/' . $contentId;
         }
         $path .= '/' . $file->getType() . 's';
+
         self::dirReady($path);
 
         // Add filename to path
@@ -315,7 +316,7 @@ class LaravelH5pStorage implements H5PFileStorage {
         } else {
             copy($_FILES['file']['tmp_name'], $path);
         }
-
+        
         return $file;
     }
 

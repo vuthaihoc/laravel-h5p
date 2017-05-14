@@ -1,6 +1,6 @@
 @extends( config('laravel-h5p.layout') )
 
-@section( 'content' )
+@section( 'h5p' )
 <div class="container-fluid">
 
     <div class="row">
@@ -9,7 +9,7 @@
 
             <div class="panel panel-primary">
 
-                {!! Form::open(['route' => ['laravel-h5p.library.store'], 'id'=>'h5p-library-form', 'class'=>'form-horizontal', 'enctype'=>"multipart/form-data"]) !!}
+                {!! Form::open(['route' => ['h5p-library.store'], 'id'=>'h5p-library-form', 'class'=>'form-horizontal', 'enctype'=>"multipart/form-data"]) !!}
                 <div class="panel-body">
 
                     <div class="form-group {{ $errors->has('h5p_file') ? 'has-error' : '' }}" style="margin-bottom: 0px;">
@@ -51,7 +51,7 @@
         <div class="col-md-3">
             <div class="panel panel-primary">
 
-                {!! Form::open(['route' => ['laravel-h5p.library.clear'], 'id'=>'h5p-update-content-type-cache', 'class'=>'form-horizontal', 'enctype'=>"multipart/form-data"]) !!}
+                {!! Form::open(['route' => ['h5p-library.clear'], 'id'=>'h5p-update-content-type-cache', 'class'=>'form-horizontal', 'enctype'=>"multipart/form-data"]) !!}
 
 
                 <div class="panel-body">
@@ -89,7 +89,7 @@
 
 
             <p class="form-control-static">
-                {{ trans('laravel-h5p::laravel-h5p.library.search-result', ['count' => count($entrys)]) }}
+                {{ trans('laravel-h5p.library.search-result', ['count' => count($entrys)]) }}
             </p>
 
             <table class="table text-middle text-center h5p-lists">
@@ -116,25 +116,25 @@
                 <tbody>
 
                     @unless(count($entrys) >0)
-                    <tr><td colspan="6" class="h5p-noresult">{{ trans('laravel-h5p::laravel-h5p.common.no-result') }}</td></tr>
+                    <tr><td colspan="6" class="h5p-noresult">{{ trans('laravel-h5p.common.no-result') }}</td></tr>
                     @endunless
 
                     @foreach($entrys as $entry)
                     <tr>
                         <td class="text-left">
                             <p class="form-control-static">
-                                <a href="{{ route('laravel-h5p.library.show', ['id'=>$entry->id]) }}">{{ $entry->title }} ({{ $entry->major_version.'.'.$entry->minor_version.'.'.$entry->patch_version }})</a>
+                                <a href="{{ route('h5p-library.show', ['id'=>$entry->id]) }}">{{ $entry->title }} ({{ $entry->major_version.'.'.$entry->minor_version.'.'.$entry->patch_version }})</a>
                             </p>
                         </td>
 
                         <td class="text-center">
-                            <label class="checkbox-inline">
-                                <input type="checkbox" value="{{ $entry->restricted }}" 
-                                       @if($entry->restricted == '1')
-                                       checked=""
-                                       @endif
-                                       class="laravel-h5p-restricted" data-id="{{ $entry->id }}">
-                            </label>
+
+                            <input type="checkbox" value="{{ $entry->restricted }}" 
+                                   @if($entry->restricted == '1')
+                                   checked=""
+                                   @endif
+                                   class="laravel-h5p-restricted" data-id="{{ $entry->id }}">
+
                         </td>
 
                         <td class="text-center">
@@ -163,22 +163,14 @@
 
 @endsection
 
-
-
-
-
-
-
-
-
-@push( 'header-script' )
+@push( 'h5p-header-script' )
     {{--    core styles       --}}
-    @foreach($required_files['styles'] as $style)
+    @foreach($settings['core']['styles'] as $style)
     {{ Html::style($style) }}
     @endforeach
 @endpush
 
-@push( 'footer-script' )
+@push( 'h5p-footer-script' )
     <script type="text/javascript">
         H5PAdminIntegration = {!! json_encode($settings) !!};
     </script>
@@ -187,50 +179,4 @@
     @foreach($required_files['scripts'] as $script)
     {{ Html::script($script) }}
     @endforeach
-
-    <script type="text/javascript">
-        (function ($) {
-
-            $(document).ready(function () {
-
-                $(document).on("click", ".laravel-h5p-restricted", function (e) {
-
-                    var $this = $(this);
-
-                    $.ajax({
-                        url: "{{ route('laravel-h5p.library.restrict') }}",
-                        data: {id: $this.data('id'), selected: $this.is(':checked')},
-                        success: function (response) {
-                            alert('변경되었습니다');
-                        }
-                    });
-
-                });
-
-                $(document).on("click", ".laravel-h5p-destory", function (e) {
-
-                    var $this = $(this);
-                    if (confirm("해당 라이브러리를 삭제하시겠습니까?")) {
-                        $.ajax({
-                            url: "{{ route('laravel-h5p.library.destory') }}",
-                            data: {id: $this.data('id')},
-                            success: function (response) {
-    //                        alert('삭제되었습니다');
-                                if (response.msg) {
-                                    alert(response.msg);
-                                }
-                            }
-                        });
-
-                    }
-
-                });
-
-
-
-
-            });
-
-        })(H5P.jQuery);
-    </script>
 @endpush

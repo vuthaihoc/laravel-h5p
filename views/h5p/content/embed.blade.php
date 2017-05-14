@@ -1,6 +1,6 @@
 @extends( config('laravel-h5p.layout') )
 
-@section( 'content' )
+@section( 'h5p' )
 <div class="container-fluid">
 
     <div class="row">
@@ -12,7 +12,7 @@
             <br/>
             <p class='text-center'>
 
-                <a href="{{ url()->previous() }}" class="btn btn-default"><i class="fa fa-reply"></i> {{ trans('laravel-h5p::laravel-h5p.content.cancel') }}</a>
+                <a href="{{ url()->previous() }}" class="btn btn-default"><i class="fa fa-reply"></i> {{ trans('laravel-h5p.content.cancel') }}</a>
 
             </p>
         </div>
@@ -20,16 +20,21 @@
     </div>
 
 </div>
+
 @endsection
 
-@push( 'header-script' )
+
+
+
+
+@push( 'h5p-header-script' )
     {{--    core styles       --}}
     @foreach($settings['core']['styles'] as $style)
     {{ Html::style($style) }}
     @endforeach
 @endpush
 
-@push( 'footer-script' )
+@push( 'h5p-footer-script' )
     <script type="text/javascript">
         H5PIntegration = {!! json_encode($settings) !!};
     </script>

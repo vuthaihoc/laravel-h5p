@@ -2,6 +2,10 @@
 
 namespace Chali5124\LaravelH5p;
 
+use Chali5124\LaravelH5p\Commands\MigrationCommand;
+use Chali5124\LaravelH5p\Commands\ResetCommand;
+use Chali5124\LaravelH5p\Helpers\H5pHelper;
+
 class LaravelH5pServiceProvider extends \Illuminate\Support\ServiceProvider {
 
     protected $defer = false;
@@ -25,8 +29,23 @@ class LaravelH5pServiceProvider extends \Illuminate\Support\ServiceProvider {
         });
 
         $this->app->bind('H5pHelper', function() {
-            return new Chali5124\LaravelH5p\Helpers\H5pHelper();
+            return new H5pHelper();
         });
+
+        $this->app->singleton('command.laravel-h5p.migration', function ($app) {
+            return new MigrationCommand();
+        });
+        
+        $this->app->singleton('command.laravel-h5p.reset', function ($app) {
+            return new ResetCommand();
+        });
+        
+        $this->commands([
+            'command.laravel-h5p.migration',
+            'command.laravel-h5p.reset'
+        ]);
+        
+        
     }
 
     /**
@@ -35,34 +54,26 @@ class LaravelH5pServiceProvider extends \Illuminate\Support\ServiceProvider {
      * @return void
      */
     public function boot() {
+
         $this->loadRoutesFrom(__DIR__ . '/../../routes/laravel-h5p.php');
-        $this->loadTranslationsFrom(__DIR__ . '/../../lang', 'laravel-h5p');
-        $this->loadViewsFrom(__DIR__ . '/../../views', 'laravel-h5p');
 
-        $this->publishes([
-            __DIR__ . '/../../config/laravel-h5p.php' => config_path()
-                ], 'config');
-        $this->mergeConfigFrom(
-                __DIR__ . '/../../config/laravel-h5p.php', 'laravel-h5p'
-        );
-
-
-        $this->publishes([
-            __DIR__ . '/../../migrations' => database_path('migrations')
-                ], 'database');
-
-//        $this->publishes([
-//            __DIR__ . '/../../seeds/H5pUserSeeder.php' => database_path('seeds/H5pUserSeeder.php')
-//                ], 'seeds');
-
+        // config
         $this->publishes([
             __DIR__ . '/../../config/laravel-h5p.php' => config_path('laravel-h5p.php')
                 ], 'config');
 
+        // language
         $this->publishes([
-            __DIR__ . '/../../views/layouts/app.blade.php' => resource_path('views/layouts/app.blade.php')
+            __DIR__ . '/../../lang/ko/laravel-h5p.php' => resource_path('lang/ko/laravel-h5p.php')
+                ], 'language');
+
+        // views
+        $this->publishes([
+            __DIR__ . '/../../views/h5p' => resource_path('views/h5p')
                 ], 'resources');
 
+
+        // h5p
         $this->publishes([
             __DIR__ . '/../../assets' => public_path('vendor/laravel-h5p'),
             app_path('/../vendor/h5p/h5p-core/fonts') => public_path('vendor/h5p/h5p-core/fonts'),
@@ -76,6 +87,13 @@ class LaravelH5pServiceProvider extends \Illuminate\Support\ServiceProvider {
             app_path('/../vendor/h5p/h5p-editor/scripts') => public_path('vendor/h5p/h5p-editor/scripts'),
             app_path('/../vendor/h5p/h5p-editor/styles') => public_path('vendor/h5p/h5p-editor/styles'),
                 ], 'public');
+    }
+
+    public function provides() {
+        return [
+            'command.laravel-h5p.migration',
+            'command.laravel-h5p.reset'
+        ];
     }
 
 }

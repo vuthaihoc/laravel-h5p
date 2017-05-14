@@ -64,7 +64,7 @@ class LibraryController extends Controller {
             $settings['libraryList']['notCached'] = 0;
         }
 
-        return view('laravel-h5p::library.index', compact('entrys', 'settings', 'last_update', 'hubOn', 'required_files'));
+        return view('h5p.library.index', compact('entrys', 'settings', 'last_update', 'hubOn', 'required_files'));
     }
 
     public function show(Request $request, $id) {
@@ -78,13 +78,14 @@ class LibraryController extends Controller {
         $settings = array(
             'containerSelector' => '#h5p-admin-container',
         );
+        
         // Build the translations needed
         $settings['libraryInfo']['translations'] = array(
-            'noContent' => __('No content is using this library'),
-            'contentHeader' => __('Content using this library'),
-            'pageSizeSelectorLabel' => __('Elements per page'),
-            'filterPlaceholder' => __('Filter content'),
-            'pageXOfY' => __('Page $x of $y'),
+            'noContent' => trans('laravel-h5p.library.noContent'),
+            'contentHeader' => trans('laravel-h5p.library.contentHeader'),
+            'pageSizeSelectorLabel' => trans('laravel-h5p.library.pageSizeSelectorLabel'),
+            'filterPlaceholder' => trans('laravel-h5p.library.filterPlaceholder'),
+            'pageXOfY' => trans('laravel-h5p.library.pageXOfY'),
         );
         $notCached = $interface->getNumNotFiltered();
         if ($notCached) {
@@ -106,15 +107,15 @@ class LibraryController extends Controller {
         }
         // Build library info
         $settings['libraryInfo']['info'] = array(
-            'Version' => H5PCore::libraryVersion($library),
-            'Fullscreen' => $library->fullscreen ? __('Yes') : __('No'),
-            'Content library' => $library->runnable ? __('Yes') : __('No'),
-            'Used by' => (isset($contents) ? count($contents) : __('N/A')),
+            'version' => H5PCore::libraryVersion($library),
+            'fullscreen' => $library->fullscreen ? trans("laravel-h5p.common.yes") : trans("laravel-h5p.common.no"),
+            'content_library' => $library->runnable ? trans("laravel-h5p.common.yes") : trans("laravel-h5p.common.no"),
+            'used' => (isset($contents) ? count($contents) : trans("laravel-h5p.common.na")),
         );
 
         $required_files = $this->assets(['js/h5p-library-details.js']);
 
-        return view('laravel-h5p::library.show', compact('settings', 'required_files', 'library'));
+        return view('h5p.library.show', compact('settings', 'required_files', 'library'));
     }
 
     public function store(Request $request) {
@@ -149,12 +150,12 @@ class LibraryController extends Controller {
 
             return redirect()
                             ->route('laravel-h5p.library.index')
-                            ->with('success', trans('laravel-h5p::laravel-h5p.library.updated'));
+                            ->with('success', trans('laravel-h5p.library.updated'));
         }
 
         return redirect()
                         ->route('laravel-h5p.library.index')
-                        ->with('error', trans('laravel-h5p::laravel-h5p.library.can_not_updated'));
+                        ->with('error', trans('laravel-h5p.library.can_not_updated'));
     }
 
     public function destroy(Request $request, $id) {
@@ -168,14 +169,14 @@ class LibraryController extends Controller {
         $usage = $interface->getLibraryUsage($library);
         if ($usage['content'] !== 0 || $usage['libraries'] !== 0) {
             return redirect()->route('laravel-h5p.library.index')
-                            ->with('error', trans('laravel-h5p::laravel-h5p.library.used_library_can_not_destoroied'));
+                            ->with('error', trans('laravel-h5p.library.used_library_can_not_destoroied'));
         }
 
         $interface->deleteLibrary($library);
 
         return redirect()
                         ->route('laravel-h5p.library.index')
-                        ->with('success', trans('laravel-h5p::laravel-h5p.library.destoryed'));
+                        ->with('success', trans('laravel-h5p.library.destoryed'));
     }
 
     public function clear(Request $request) {
@@ -200,7 +201,7 @@ class LibraryController extends Controller {
         $count = intval(count($contents) - $done);
 
         return redirect()->route('laravel-h5p.library.index')
-                        ->with('success', trans('laravel-h5p::laravel-h5p.library.cleared'));
+                        ->with('success', trans('laravel-h5p.library.cleared'));
     }
 
     public function restrict(Request $request) {
@@ -221,7 +222,7 @@ class LibraryController extends Controller {
 
     private function assets($scripts = [], $styles = []) {
 
-        $prefix = 'vendor/h5p/h5p-core/';
+        $prefix = 'assets/vendor/h5p/h5p-core/';
         $return = [
             "scripts" => [],
             "styles" => []
