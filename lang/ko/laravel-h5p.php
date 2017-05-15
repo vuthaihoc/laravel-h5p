@@ -48,11 +48,6 @@ return [
         "can_not_destroy" => "라이브러리를 삭제할 수 없습니다.",
         "used_library_can_not_destoroied" => "해당 라이브러리는 다른 컨텐츠 혹은 라이브러리에서 사용중이므로 삭제할 수 없습니다.",
         "confirm_destory" => "라이브러리를 삭제하시겠습니까?",
-        'noContent' => 'No content is using this library',
-        'contentHeader' => 'Content using this library',
-        'pageSizeSelectorLabel' => 'Elements per page',
-        'filterPlaceholder' => 'Filter content',
-        'pageXOfY' => 'Page $x of $y',
     ],
     'libraryInfo' => [
         'noContent' => 'No content is using this library',
