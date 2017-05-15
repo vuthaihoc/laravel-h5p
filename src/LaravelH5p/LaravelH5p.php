@@ -210,9 +210,9 @@ class LaravelH5p {
             'styles' => array(),
             'scripts' => array()
         );
-        
+
         $settings['core']['styles'][] = self::get_laravelh5p_url('/css/laravel-h5p.css');
-            
+
         foreach (H5PCore::$styles as $style) {
             $settings['core']['styles'][] = self::get_h5pcore_url('/' . $style);
         }
@@ -231,7 +231,7 @@ class LaravelH5p {
 
         $settings = self::get_core_settings();
         $settings['editor'] = array(
-            'filesPath' => self::get_h5p_storage(),
+            'filesPath' => self::get_h5p_storage('/editor'),
             'fileIcon' => array(
                 'path' => self::get_h5peditor_url('/images/binary-file.png'),
                 'width' => 50,
