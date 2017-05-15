@@ -34,7 +34,7 @@ class H5pController extends Controller {
         $library = 0;
         $parameters = '{}';
 
-        $display_options = $core->getDisplayOptionsForEdit('');
+        $display_options = $core->getDisplayOptionsForEdit(NULL);
 
         // view 에서 출력할 파일과 세팅을 가져온다
         $settings = $h5p::get_editor();
@@ -177,11 +177,11 @@ class H5pController extends Controller {
     public function show(Request $request, $id) {
         $h5p = App::make('LaravelH5p');
         $core = $h5p::$core;
-        
+
         $settings = $h5p::get_core();
-        
+
         $content = $h5p->get_content($id);
-        
+
         $embed_code = $h5p->get_embed($content, $settings);
 
         event(new H5pEvent('content', NULL, $content['id'], $content['title'], $content['library']['name'], $content['library']['majorVersion'], $content['library']['minorVersion']));
