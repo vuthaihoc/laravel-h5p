@@ -1,43 +1,42 @@
-@extends( config('laravel-h5p.layout') )
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-@section( 'h5p' )
-<div class="container-fluid">
+        <!-- CSRF Token -->
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <div class="row">
+        <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <div class="col-md-12">
+        <script>
+            window.Laravel = <?php echo json_encode([ 'csrfToken' => csrf_token()]); ?>
+        </script>
 
+        {{--    core styles       --}}
+        @foreach($settings['core']['styles'] as $style)
+        {{ Html::style($style) }}
+        @endforeach
+    </head>
+
+    <body>
+
+        <div  id="app">
             {!! $embed_code  !!}
-
-            <br/>
-            <p class='text-center'>
-
-                <a href="{{ url()->previous() }}" class="btn btn-default"><i class="fa fa-reply"></i> {{ trans('laravel-h5p.content.cancel') }}</a>
-
-            </p>
         </div>
 
-    </div>
+        <script type="text/javascript" src="{{ url('/assets/js/app.js') }}"></script>        
+       
+        <script type="text/javascript">
+            H5PIntegration = {!! json_encode($settings) !!};
+        </script>
 
-</div>
+        {{--    core script       --}}
+        @foreach($settings['core']['scripts'] as $script)
+        {{ Html::script($script) }}
+        @endforeach
 
-@endsection
+    </body>
+</html>
 
-
-@push( 'h5p-header-script' )
-    {{--    core styles       --}}
-    @foreach($settings['core']['styles'] as $style)
-    {{ Html::style($style) }}
-    @endforeach
-@endpush
-
-@push( 'h5p-footer-script' )
-    <script type="text/javascript">
-        H5PIntegration = {!! json_encode($settings) !!};
-    </script>
-
-    {{--    core script       --}}
-    @foreach($settings['core']['scripts'] as $script)
-    {{ Html::script($script) }}
-    @endforeach
-@endpush

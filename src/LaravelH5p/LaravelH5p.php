@@ -238,7 +238,9 @@ class LaravelH5p {
                 'height' => 50,
             ),
             'ajaxPath' => route('h5p.ajax') . '/',
-            'libraryUrl' => self::get_h5plibrary_url(), //plugin_dir_url('h5p/h5p-editor-php-library/h5peditor.class.php'),
+            
+            // for checkeditor,
+            'libraryUrl' => self::get_h5peditor_url(),
             'copyrightSemantics' => self::$contentvalidator->getCopyrightSemantics(),
             'assets' => [],
             'deleteMessage' => trans('laravel-h5p::laravel-h5p.content.destoryed'),

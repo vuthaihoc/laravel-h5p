@@ -35,6 +35,6 @@ Route::group(['middleware' => ['web']], function () {
     // export
     if (config('laravel-h5p.use_router') == 'EXPORT' || config('laravel-h5p.use_router') == 'ALL') {
         Route::get('h5p/embed/{id}', 'Chali5124\LaravelH5p\Http\Controllers\EmbedController')->name("h5p.embed");
-        Route::get('h5p/download/{id}', 'Chali5124\LaravelH5p\Http\Controllers\EmbedController')->name("h5p.donwload");
+        Route::get('h5p/download/{id}', 'Chali5124\LaravelH5p\Http\Controllers\DownloadController')->name("h5p.donwload");
     }
 });

@@ -18,7 +18,19 @@ use Chali5124\LaravelH5p\Eloquents\H5pLibrary;
 class EmbedController extends Controller {
 
     public function __invoke(Request $request, $id) {
-//        return view('laravel-h5p::h5p.embed', compact("entry"));
+
+        $h5p = App::make('LaravelH5p');
+        $core = $h5p::$core;
+
+        $settings = $h5p::get_core();
+
+        $content = $h5p->get_content($id);
+
+        $embed_code = $h5p->get_embed($content, $settings);
+
+        event(new H5pEvent('content', NULL, $content['id'], $content['title'], $content['library']['name'], $content['library']['majorVersion'], $content['library']['minorVersion']));
+
+        return view('h5p.content.embed', compact("settings", 'user', 'embed_code'));
     }
 
 }
