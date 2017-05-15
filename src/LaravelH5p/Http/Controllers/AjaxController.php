@@ -74,11 +74,11 @@ class AjaxController extends Controller {
     }
 
     public function finish(Request $request) {
-        return;
+        return response()->json([]);
     }
 
     public function contentUserData(Request $request) {
-        return;
+        return response()->json([]);
     }
 
 }

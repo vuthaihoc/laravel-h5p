@@ -895,12 +895,15 @@ class LaravelH5pRepository implements H5PFrameworkInterface {
         switch ($permission) {
             case H5PPermission::DOWNLOAD_H5P:
             case H5PPermission::EMBED_H5P:
-                return self::currentUserCanEdit($contentUserId);
+//                return self::currentUserCanEdit($contentUserId);
+                return TRUE;
             case H5PPermission::CREATE_RESTRICTED:
             case H5PPermission::UPDATE_LIBRARIES:
-                return H5pHelper::current_user_can('manage_h5p_libraries');
+//                return H5pHelper::current_user_can('manage_h5p_libraries');
+                return TRUE;
             case H5PPermission::INSTALL_RECOMMENDED:
-                H5pHelper::current_user_can('install_recommended_h5p_libraries');
+//                H5pHelper::current_user_can('install_recommended_h5p_libraries');
+                return TRUE;
         }
         return FALSE;
     }

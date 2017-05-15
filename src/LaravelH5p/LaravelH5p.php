@@ -187,7 +187,7 @@ class LaravelH5p {
             'saveFreq' => config('laravel-h5p.h5p_save_content_state', FALSE) ? config('laravel-h5p.h5p_save_content_frequency', 30) : FALSE,
             'siteUrl' => config('laravel-h5p.domain'),
             'l10n' => array(
-                'H5P' => trans('laravel-h5p::laravel-h5p.h5p')
+                'H5P' => trans('laravel-h5p.h5p')
             ),
             'hubIsEnabled' => config('laravel-h5p.h5p_hub_is_enabled')
         );
@@ -198,7 +198,7 @@ class LaravelH5p {
                 'mail' => Auth::user()->email
             );
         }
-
+        
         return $settings;
     }
 
@@ -230,7 +230,7 @@ class LaravelH5p {
     private static function get_editor_settings($content = null) {
 
         $settings = self::get_core_settings();
-        
+
         $settings['editor'] = array(
             'filesPath' => self::get_h5p_storage('/editor'),
             'fileIcon' => array(
@@ -239,12 +239,11 @@ class LaravelH5p {
                 'height' => 50,
             ),
             'ajaxPath' => route('h5p.ajax') . '/',
-            
             // for checkeditor,
             'libraryUrl' => self::get_h5peditor_url(),
             'copyrightSemantics' => self::$contentvalidator->getCopyrightSemantics(),
             'assets' => [],
-            'deleteMessage' => trans('laravel-h5p::laravel-h5p.content.destoryed'),
+            'deleteMessage' => trans('laravel-h5p.content.destoryed'),
             'apiVersion' => H5PCore::$coreApi
         );
 
@@ -293,6 +292,24 @@ class LaravelH5p {
      */
     public static function get_content_settings($content) {
         $safe_parameters = self::$core->filterParameters($content);
+
+//        if (has_action('h5p_alter_filtered_parameters')) {
+//            // Parse the JSON parameters
+//            $decoded_parameters = json_decode($safe_parameters);
+//            /**
+//             * Allows you to alter the H5P content parameters after they have been
+//             * filtered. This hook only fires before view.
+//             *
+//             * @since 1.5.3
+//             *
+//             * @param object &$parameters
+//             * @param string $libraryName
+//             * @param int $libraryMajorVersion
+//             * @param int $libraryMinorVersion
+//             */
+//            // Stringify the JSON parameters
+//            $safe_parameters = json_encode($decoded_parameters);
+//        }
 
         // Getting author's user id
         $author_id = (int) (is_array($content) ? $content['user_id'] : $content->user_id);

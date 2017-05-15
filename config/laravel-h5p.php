@@ -16,9 +16,16 @@ return [
     'domain' => 'http://localhost',
     'h5p_public_path' => '/vendor',
     'slug' => 'laravel-h5p',
-      'views' => 'h5',    // h5p view path
-    'layout' => 'h5p.layouts.h5p',  // layoute path
+    'views' => 'h5', // h5p view path
+    'layout' => 'h5p.layouts.h5p', // layoute path
     'use_router' => 'ALL', // ALL,EXPORT,EDITOR
+    'show_display_option' => false,
+    'display_option' => [
+        'frame' => true,
+        'download' => false,
+        'embed' => true,
+        'copyright' => false,
+    ],
     'H5P_DISABLE_AGGREGATION' => FALSE,
     'h5p_frame' => TRUE,
     'h5p_export' => TRUE,

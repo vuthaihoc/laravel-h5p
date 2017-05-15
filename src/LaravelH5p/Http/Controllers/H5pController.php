@@ -195,10 +195,14 @@ class H5pController extends Controller {
 
     private function get_disabled_content_features($core, &$content) {
         $set = array(
-            H5PCore::DISPLAY_OPTION_FRAME => filter_input(INPUT_POST, 'frame', FILTER_VALIDATE_BOOLEAN),
-            H5PCore::DISPLAY_OPTION_DOWNLOAD => filter_input(INPUT_POST, 'download', FILTER_VALIDATE_BOOLEAN),
-            H5PCore::DISPLAY_OPTION_EMBED => filter_input(INPUT_POST, 'embed', FILTER_VALIDATE_BOOLEAN),
-            H5PCore::DISPLAY_OPTION_COPYRIGHT => filter_input(INPUT_POST, 'copyright', FILTER_VALIDATE_BOOLEAN),
+            H5PCore::DISPLAY_OPTION_FRAME => config('laravel-h5p.display_option.frame'),
+            H5PCore::DISPLAY_OPTION_DOWNLOAD => config('laravel-h5p.display_option.download'),//filter_input(INPUT_POST, 'download', FILTER_VALIDATE_BOOLEAN),
+            H5PCore::DISPLAY_OPTION_EMBED => config('laravel-h5p.display_option.embed'),//filter_input(INPUT_POST, 'embed', FILTER_VALIDATE_BOOLEAN),
+            H5PCore::DISPLAY_OPTION_COPYRIGHT => config('laravel-h5p.display_option.copyright'),//filter_input(INPUT_POST, 'copyright', FILTER_VALIDATE_BOOLEAN),
+//            H5PCore::DISPLAY_OPTION_FRAME => filter_input(INPUT_POST, 'frame', FILTER_VALIDATE_BOOLEAN),
+//            H5PCore::DISPLAY_OPTION_DOWNLOAD => filter_input(INPUT_POST, 'download', FILTER_VALIDATE_BOOLEAN),
+//            H5PCore::DISPLAY_OPTION_EMBED => filter_input(INPUT_POST, 'embed', FILTER_VALIDATE_BOOLEAN),
+//            H5PCore::DISPLAY_OPTION_COPYRIGHT => filter_input(INPUT_POST, 'copyright', FILTER_VALIDATE_BOOLEAN),
         );
         $content['disable'] = $core->getStorableDisplayOptions($set, $content['disable']);
     }
