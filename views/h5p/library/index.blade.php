@@ -9,7 +9,7 @@
 
             <div class="panel panel-primary">
 
-                {!! Form::open(['route' => ['h5p-library.store'], 'id'=>'h5p-library-form', 'class'=>'form-horizontal', 'enctype'=>"multipart/form-data"]) !!}
+                {!! Form::open(['route' => ['h5p.library.store'], 'id'=>'h5p-library-form', 'class'=>'form-horizontal', 'enctype'=>"multipart/form-data"]) !!}
                 <div class="panel-body">
 
                     <div class="form-group {{ $errors->has('h5p_file') ? 'has-error' : '' }}" style="margin-bottom: 0px;">
@@ -51,7 +51,7 @@
         <div class="col-md-3">
             <div class="panel panel-primary">
 
-                {!! Form::open(['route' => ['h5p-library.clear'], 'id'=>'h5p-update-content-type-cache', 'class'=>'form-horizontal', 'enctype'=>"multipart/form-data"]) !!}
+                {!! Form::open(['route' => ['h5p.library.clear'], 'id'=>'h5p-update-content-type-cache', 'class'=>'form-horizontal', 'enctype'=>"multipart/form-data"]) !!}
 
 
                 <div class="panel-body">
@@ -123,7 +123,7 @@
                     <tr>
                         <td class="text-left">
                             <p class="form-control-static">
-                                <a href="{{ route('h5p-library.show', ['id'=>$entry->id]) }}">{{ $entry->title }} ({{ $entry->major_version.'.'.$entry->minor_version.'.'.$entry->patch_version }})</a>
+                                <a href="{{ route('h5p.library.show', ['id'=>$entry->id]) }}">{{ $entry->title }} ({{ $entry->major_version.'.'.$entry->minor_version.'.'.$entry->patch_version }})</a>
                             </p>
                         </td>
 

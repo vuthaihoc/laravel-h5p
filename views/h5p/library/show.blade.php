@@ -19,7 +19,7 @@
             </ul>
             
             
-            <a href="{{ route('h5p-library.index') }}" class="btn btn-default"><i class="fa fa-reply"></i> 돌아가기</a>
+            <a href="{{ route('h5p.library.index') }}" class="btn btn-default"><i class="fa fa-reply"></i> 돌아가기</a>
             
 
         </div>

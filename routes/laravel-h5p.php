@@ -9,12 +9,12 @@ Route::group(['middleware' => ['web']], function () {
             Route::resource('h5p', "Chali5124\LaravelH5p\Http\Controllers\H5pController");
             Route::get('h5p/export', 'Chali5124\LaravelH5p\Http\Controllers\H5pController@export')->name("h5p.export");
 
-            Route::get('h5p-library', "Chali5124\LaravelH5p\Http\Controllers\LibraryController@index")->name("h5p-library.index");
-            Route::get('h5p-library/show/{id}', "Chali5124\LaravelH5p\Http\Controllers\LibraryController@show")->name("h5p-library.show");
-            Route::post('h5p-library/store', "Chali5124\LaravelH5p\Http\Controllers\LibraryController@store")->name("h5p-library.store");
-            Route::delete('h5p-library/destory', "Chali5124\LaravelH5p\Http\Controllers\LibraryController@destory")->name("h5p-library.destory");
-            Route::get('h5p-library/restrict', "Chali5124\LaravelH5p\Http\Controllers\LibraryController@restrict")->name("h5p-library.restrict");
-            Route::post('h5p-library/clear', "Chali5124\LaravelH5p\Http\Controllers\LibraryController@clear")->name("h5p-library.clear");
+            Route::get('h5p/library', "Chali5124\LaravelH5p\Http\Controllers\LibraryController@index")->name("h5p.library.index");
+            Route::get('h5p/library/show/{id}', "Chali5124\LaravelH5p\Http\Controllers\LibraryController@show")->name("h5p.library.show");
+            Route::post('h5p/library/store', "Chali5124\LaravelH5p\Http\Controllers\LibraryController@store")->name("h5p.library.store");
+            Route::delete('h5p/library/destory', "Chali5124\LaravelH5p\Http\Controllers\LibraryController@destory")->name("h5p.library.destory");
+            Route::get('h5p/library/restrict', "Chali5124\LaravelH5p\Http\Controllers\LibraryController@restrict")->name("h5p.library.restrict");
+            Route::post('h5p/library/clear', "Chali5124\LaravelH5p\Http\Controllers\LibraryController@clear")->name("h5p.library.clear");
         });
 
 
