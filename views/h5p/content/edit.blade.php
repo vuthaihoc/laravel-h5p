@@ -1,7 +1,7 @@
 @extends( config('laravel-h5p.layout') )
 
 
-@section( 'content' )
+@section( 'h5p' )
 <div class="container-fluid">
 
     <div class="row">
@@ -89,7 +89,7 @@
                 </div>
 
 
-                @if(config('laravel-h5p.show_display_option'))
+                @if(config('laravel-h5p.h5p_show_display_option'))
                 <div class="form-group h5p-sidebar">
                     <label class="control-label col-md-3">{{ trans('laravel-h5p.content.display') }}</label>
                     <div class="col-md-9">
@@ -113,50 +113,44 @@
                                 @if(isset($display_options[H5PCore::DISPLAY_OPTION_DOWNLOAD]))
                                 <li>
                                     <label>
-
-
-                                        <label>
-                                            {{ Form::checkbox('download', true, $display_options[H5PCore::DISPLAY_OPTION_DOWNLOAD], [
+                                        {{ Form::checkbox('download', true, $display_options[H5PCore::DISPLAY_OPTION_DOWNLOAD], [
                                         'class' => 'h5p-visibility-toggler',
                                         'data-h5p-visibility-subject-selector' => ".h5p-action-bar-buttons-settings",
                                         'id' => 'laravel-h5p-title',
                                         'value' => old('title')
                                     ]) }}
-                                            {{ trans("laravel-h5p.content.display_download_button") }}
-                                        </label>
+                                        {{ trans("laravel-h5p.content.display_download_button") }}
+                                    </label>
                                 </li>
                                 @endif
 
                                 @if (isset($display_options[H5PCore::DISPLAY_OPTION_EMBED]))
                                 <li>
+
                                     <label>
-
-
-                                        <label>
-                                            {{ Form::checkbox('embed', true, $display_options[H5PCore::DISPLAY_OPTION_EMBED], [
+                                        {{ Form::checkbox('embed', true, $display_options[H5PCore::DISPLAY_OPTION_EMBED], [
                                         'class' => 'h5p-visibility-toggler',
                                         'data-h5p-visibility-subject-selector' => ".h5p-action-bar-buttons-settings",
                                         'id' => 'laravel-h5p-title',
                                         'value' => old('title')
                                     ]) }}
-                                            {{ trans("laravel-h5p.content.display_embed_button") }}
-                                        </label>
+                                        {{ trans("laravel-h5p.content.display_embed_button") }}
+                                    </label>
                                 </li>
                                 @endif
 
                                 @if  (isset($display_options[H5PCore::DISPLAY_OPTION_COPYRIGHT]))
                                 <li>
-                                    <label>
 
-                                        <label>
-                                            {{ Form::checkbox('copyright', true, $display_options[H5PCore::DISPLAY_OPTION_COPYRIGHT], [
+                                    <label>
+                                        {{ Form::checkbox('copyright', true, $display_options[H5PCore::DISPLAY_OPTION_COPYRIGHT], [
                                         'class' => 'h5p-visibility-toggler',
                                         'data-h5p-visibility-subject-selector' => ".h5p-action-bar-buttons-settings",
                                         'id' => 'laravel-h5p-title',
                                         'value' => old('title')
                                     ]) }}
-                                            {{ trans("laravel-h5p.content.display_copyright_button") }}
-                                        </label>
+                                        {{ trans("laravel-h5p.content.display_copyright_button") }}
+                                    </label>
                                 </li>
                                 @endif
 

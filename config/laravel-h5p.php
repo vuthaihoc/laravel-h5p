@@ -19,20 +19,19 @@ return [
     'views' => 'h5', // h5p view path
     'layout' => 'h5p.layouts.h5p', // layoute path
     'use_router' => 'ALL', // ALL,EXPORT,EDITOR
-    'show_display_option' => false,
-    'display_option' => [
-        'frame' => true,
-        'download' => false,
-        'embed' => true,
-        'copyright' => false,
-    ],
-    'H5P_DISABLE_AGGREGATION' => FALSE,
+    
+
+    'H5P_DISABLE_AGGREGATION' => FALSE,   
+    
+    // 컨텐츠 화면설정
+    'h5p_show_display_option' => TRUE,
+    
     'h5p_frame' => TRUE,
-    'h5p_export' => TRUE,
+    'h5p_export' => FALSE,
     'h5p_embed' => TRUE,
-    'h5p_copyright' => TRUE,
+    'h5p_copyright' => FALSE,
     'h5p_icon' => TRUE,
-    'h5p_track_user' => TRUE,
+    'h5p_track_user' => FALSE,
     'h5p_ext_communication' => TRUE,
     'h5p_save_content_state' => FALSE,
     'h5p_save_content_frequency' => 30,

@@ -34,7 +34,13 @@ class H5pController extends Controller {
         $library = 0;
         $parameters = '{}';
 
-        $display_options = $core->getDisplayOptionsForEdit(NULL);
+        $display_options = $core->getDisplayOptionsForEdit([
+            $core::DISPLAY_OPTION_FRAME => config('laravel-h5p.h5p_frame'),
+            $core::DISPLAY_OPTION_DOWNLOAD => config('laravel-h5p.h5p_export'),
+            $core::DISPLAY_OPTION_EMBED => config('laravel-h5p.h5p_embed'),
+            $core::DISPLAY_OPTION_COPYRIGHT => config('laravel-h5p.h5p_copyright'),
+            $core::DISPLAY_OPTION_ABOUT => config('laravel-h5p.h5p_icon')
+        ]);
 
         // view 에서 출력할 파일과 세팅을 가져온다
         $settings = $h5p::get_editor();
@@ -196,9 +202,9 @@ class H5pController extends Controller {
     private function get_disabled_content_features($core, &$content) {
         $set = array(
             H5PCore::DISPLAY_OPTION_FRAME => config('laravel-h5p.display_option.frame'),
-            H5PCore::DISPLAY_OPTION_DOWNLOAD => config('laravel-h5p.display_option.download'),//filter_input(INPUT_POST, 'download', FILTER_VALIDATE_BOOLEAN),
-            H5PCore::DISPLAY_OPTION_EMBED => config('laravel-h5p.display_option.embed'),//filter_input(INPUT_POST, 'embed', FILTER_VALIDATE_BOOLEAN),
-            H5PCore::DISPLAY_OPTION_COPYRIGHT => config('laravel-h5p.display_option.copyright'),//filter_input(INPUT_POST, 'copyright', FILTER_VALIDATE_BOOLEAN),
+            H5PCore::DISPLAY_OPTION_DOWNLOAD => config('laravel-h5p.display_option.download'), //filter_input(INPUT_POST, 'download', FILTER_VALIDATE_BOOLEAN),
+            H5PCore::DISPLAY_OPTION_EMBED => config('laravel-h5p.display_option.embed'), //filter_input(INPUT_POST, 'embed', FILTER_VALIDATE_BOOLEAN),
+            H5PCore::DISPLAY_OPTION_COPYRIGHT => config('laravel-h5p.display_option.copyright'), //filter_input(INPUT_POST, 'copyright', FILTER_VALIDATE_BOOLEAN),
 //            H5PCore::DISPLAY_OPTION_FRAME => filter_input(INPUT_POST, 'frame', FILTER_VALIDATE_BOOLEAN),
 //            H5PCore::DISPLAY_OPTION_DOWNLOAD => filter_input(INPUT_POST, 'download', FILTER_VALIDATE_BOOLEAN),
 //            H5PCore::DISPLAY_OPTION_EMBED => filter_input(INPUT_POST, 'embed', FILTER_VALIDATE_BOOLEAN),
