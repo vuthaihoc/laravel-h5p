@@ -109,7 +109,7 @@
     };
 
 
-    if (H5PIntegration.editor !== undefined) {
+    if (H5PIntegration !== undefined && H5PIntegration.editor !== undefined) {
         $(document).ready(ns.init);
     }
 
