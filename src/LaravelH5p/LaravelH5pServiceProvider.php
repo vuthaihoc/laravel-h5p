@@ -59,6 +59,9 @@ class LaravelH5pServiceProvider extends \Illuminate\Support\ServiceProvider {
         $this->publishes([
             __DIR__ . '/../../config/laravel-h5p.php' => config_path('laravel-h5p.php')
                 ], 'config');
+        $this->mergeConfigFrom(
+                __DIR__ . '/../../config/laravel-h5p.php', 'laravel-h5p'
+        );
 
         // language
         $this->publishes([
@@ -69,12 +72,11 @@ class LaravelH5pServiceProvider extends \Illuminate\Support\ServiceProvider {
         $this->publishes([
             __DIR__ . '/../../views/h5p' => resource_path('views/h5p')
                 ], 'resources');
-        
+
         // migrations
         $this->publishes([
-			__DIR__.'/../../migrations/' => database_path('migrations')
-		], 'migrations');
-
+            __DIR__ . '/../../migrations/' => database_path('migrations')
+                ], 'migrations');
 
         // h5p
         $this->publishes([

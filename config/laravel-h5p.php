@@ -31,6 +31,7 @@ return [
     'h5p_embed' => TRUE,
     'h5p_copyright' => FALSE,
     'h5p_icon' => TRUE,
+    
     'h5p_track_user' => FALSE,
     'h5p_ext_communication' => TRUE,
     'h5p_save_content_state' => FALSE,
