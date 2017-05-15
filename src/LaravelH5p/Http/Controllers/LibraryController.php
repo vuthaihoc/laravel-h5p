@@ -149,12 +149,12 @@ class LibraryController extends Controller {
             @unlink($interface->getUploadedH5pPath());
 
             return redirect()
-                            ->route('laravel-h5p.library.index')
+                            ->route('laravel-h5p.h5p-library.index')
                             ->with('success', trans('laravel-h5p.library.updated'));
         }
 
         return redirect()
-                        ->route('laravel-h5p.library.index')
+                        ->route('laravel-h5p.h5p-library.index')
                         ->with('error', trans('laravel-h5p.library.can_not_updated'));
     }
 
@@ -168,14 +168,14 @@ class LibraryController extends Controller {
         // 사용중이라면 에러
         $usage = $interface->getLibraryUsage($library);
         if ($usage['content'] !== 0 || $usage['libraries'] !== 0) {
-            return redirect()->route('laravel-h5p.library.index')
+            return redirect()->route('laravel-h5p.h5p-library.index')
                             ->with('error', trans('laravel-h5p.library.used_library_can_not_destoroied'));
         }
 
         $interface->deleteLibrary($library);
 
         return redirect()
-                        ->route('laravel-h5p.library.index')
+                        ->route('laravel-h5p.h5p-library.index')
                         ->with('success', trans('laravel-h5p.library.destoryed'));
     }
 
@@ -200,7 +200,7 @@ class LibraryController extends Controller {
 
         $count = intval(count($contents) - $done);
 
-        return redirect()->route('laravel-h5p.library.index')
+        return redirect()->route('laravel-h5p.h5p-library.index')
                         ->with('success', trans('laravel-h5p.library.cleared'));
     }
 
