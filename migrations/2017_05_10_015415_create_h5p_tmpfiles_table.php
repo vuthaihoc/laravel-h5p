@@ -1,7 +1,9 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
 
 class CreateH5pTmpfilesTable extends Migration {
 
@@ -20,7 +22,6 @@ class CreateH5pTmpfilesTable extends Migration {
             $table->index(['created_at'], 'created_at');
 		});
 	}
-
 
 	/**
 	 * Reverse the migrations.
