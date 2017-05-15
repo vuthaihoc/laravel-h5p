@@ -69,6 +69,11 @@ class LaravelH5pServiceProvider extends \Illuminate\Support\ServiceProvider {
         $this->publishes([
             __DIR__ . '/../../views/h5p' => resource_path('views/h5p')
                 ], 'resources');
+        
+        // migrations
+        $this->publishes([
+			__DIR__.'/../../migrations/' => database_path('migrations')
+		], 'migrations');
 
 
         // h5p
