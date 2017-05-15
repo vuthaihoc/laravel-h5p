@@ -151,7 +151,6 @@ class H5pController extends Controller {
         $content['title'] = $request->get('title');
         $content['parameters'] = $request->get('parameters');
         $content['params'] = $request->get('parameters');
-        $content['params'] = $request->get('id');
         $params = json_decode($content['params']);
         $this->get_disabled_content_features($core, $content);
 
