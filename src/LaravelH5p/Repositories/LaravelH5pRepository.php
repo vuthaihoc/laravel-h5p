@@ -2,7 +2,7 @@
 
 /*
  *
- * @Project        Expression project.displayName is undefined on line 5, column 35 in Templates/Licenses/license-default.txt.
+ * @Project        Laravel framework integration class 
  * @Copyright      leechanrin
  * @Created        2017-04-06 오후 6:51:39 
  * @Filename       H5PLaravel.php
@@ -151,7 +151,6 @@ class LaravelH5pRepository implements H5PFrameworkInterface {
      */
     public function isPatchedLibrary($library) {
         if (defined('H5P_DEV') && H5P_DEV) {
-            // Makes sure libraries are updated, patch version does not matter.
             return TRUE;
         }
         $operator = $this->isInDevMode() ? '<=' : '<';

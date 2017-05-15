@@ -9,9 +9,9 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>{{ config('app.name', 'Laravel') }}</title>
-        
+
         <script>
-            window.Laravel = <?php echo json_encode([ 'csrfToken' => csrf_token() ]); ?>
+            window.Laravel = <?php echo json_encode([ 'csrfToken' => csrf_token()]); ?>
         </script>
 
         <!-- Fonts -->
@@ -138,7 +138,7 @@
             @yield('h5p')
 
         </div>
-        
+
         <script type="text/javascript" src="{{ url('/assets/js/app.js') }}"></script>        
         @stack('h5p-footer-script')
 

@@ -16,7 +16,8 @@ class CreateH5pTmpfilesTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('path');
-			$table->integer('created_at')->unsigned()->index('created_at');
+            $table->timestamps();
+            $table->index(['created_at'], 'created_at');
 		});
 	}
 

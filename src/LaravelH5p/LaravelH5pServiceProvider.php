@@ -35,17 +35,15 @@ class LaravelH5pServiceProvider extends \Illuminate\Support\ServiceProvider {
         $this->app->singleton('command.laravel-h5p.migration', function ($app) {
             return new MigrationCommand();
         });
-        
+
         $this->app->singleton('command.laravel-h5p.reset', function ($app) {
             return new ResetCommand();
         });
-        
+
         $this->commands([
             'command.laravel-h5p.migration',
             'command.laravel-h5p.reset'
         ]);
-        
-        
     }
 
     /**

@@ -54,6 +54,7 @@ class H5pEvent extends H5PEventBase {
      */
     protected function saveStats() {
 
+        return true;
 
 //        $type = $this->type . ' ' . $this->sub_type;
 //        $current_num = $wpdb->get_var($wpdb->prepare(

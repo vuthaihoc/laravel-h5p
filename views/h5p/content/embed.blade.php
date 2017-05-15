@@ -24,9 +24,6 @@
 @endsection
 
 
-
-
-
 @push( 'h5p-header-script' )
     {{--    core styles       --}}
     @foreach($settings['core']['styles'] as $style)
