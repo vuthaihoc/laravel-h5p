@@ -35,17 +35,17 @@
                 <thead>
                     <tr class="active">
                         <th class="text-center">#</th>
-                        <th class="text-center">작성자</th>
-                        <th class="text-left">제목</th>
-                        <th class="text-center">날짜</th>
-                        <th class="text-center">처리</th>
+                        <th class="text-center">{{ trans('laravel-h5p.content.creator') }}</th>
+                        <th class="text-left">{{ trans('laravel-h5p.content.title') }}</th>
+                        <th class="text-center">{{ trans('laravel-h5p.content.created_at') }}</th>
+                        <th class="text-center">{{ trans('laravel-h5p.content.action') }}</th>
                     </tr>
                 </thead>
 
                 <tbody>
 
                     @unless(count($entrys) >0)
-                    <tr><td colspan="5" class="h5p-noresult">{{ trans('laravel-h5p.content.no-result') }}</td></tr>
+                    <tr><td colspan="5" class="h5p-noresult">{{ trans('laravel-h5p.common.no-result') }}</td></tr>
                     @endunless
 
                     @foreach($entrys as $n => $entry)
@@ -68,7 +68,7 @@
                         </td>
 
                         <td>
-                            <a href="{{ route('h5p.edit', $entry->id) }}" class="btn btn-default"  data-tooltip="{pos:'top'}" title="수정">수정</a>
+                            <a href="{{ route('h5p.edit', $entry->id) }}" class="btn btn-default"  data-tooltip="{pos:'top'}" title="{{ trans('laravel-h5p.content.edit') }}">{{ trans('laravel-h5p.content.edit') }}</a>
                         </td>
                     </tr>
                     @endforeach

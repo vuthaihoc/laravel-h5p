@@ -103,7 +103,7 @@
                         <ul class="nav navbar-nav navbar-right">
 
                             <li><a href="/h5p" class="">H5P</a></li>
-                            <li><a href="/h5p-library" class="">H5P Library</a></li>
+                            <li><a href="/library" class="">H5P Library</a></li>
 
                             <!-- Authentication Links -->
                             @if (Auth::guest())

@@ -34,10 +34,10 @@ class LibraryController extends Controller {
                     'containerSelector' => '#h5p-admin-container',
                     'extraTableClasses' => '',
                     'l10n' => array(
-                        'NA' => __('N/A'),
-                        'viewLibrary' => __('View library details'),
-                        'deleteLibrary' => __('Delete library'),
-                        'upgradeLibrary' => __('Upgrade library content')
+                        'NA' => trans('laravel-h5p.common.na'),
+                        'viewLibrary' => trans('laravel-h5p.library.viewLibrary'),
+                        'deleteLibrary' => trans('laravel-h5p.library.deleteLibrary'),
+                        'upgradeLibrary' => trans('laravel-h5p.library.upgradeLibrary')
                     )
         ));
 
