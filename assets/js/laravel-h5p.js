@@ -12,6 +12,7 @@
     ns.init = function () {
         ns.$ = H5P.jQuery;
 
+
         ns.basePath = H5PIntegration.editor.libraryUrl;
         ns.fileIcon = H5PIntegration.editor.fileIcon;
         ns.ajaxPath = H5PIntegration.editor.ajaxPath;
@@ -26,6 +27,7 @@
         if (H5PIntegration.editor.nodeVersionId !== undefined) {
             ns.contentId = H5PIntegration.editor.nodeVersionId;
         }
+
 
         var h5peditor;
         var $upload = $('.laravel-h5p-upload').parents('.laravel-h5p-upload-container');
@@ -62,10 +64,10 @@
                 if (params !== undefined) {
                     $library.val(h5peditor.getLibrary());
                     $params.val(JSON.stringify(params));
+                } else {
+                    return false;
                 }
             }
-
-            console.log($params.val());
 
             $(this).attr('disabled', true);
 //            ns.save();
@@ -89,8 +91,8 @@
         $('#laravel-h5p-destory').click(function () {
             return confirm(H5PIntegration.editor.deleteMessage);
         });
+    }
 
-    };
 
     ns.getAjaxUrl = function (action, parameters) {
         var url = H5PIntegration.editor.ajaxPath + action + '/?';
@@ -107,6 +109,8 @@
     };
 
 
-    $(document).ready(ns.init);
-    
+    if (H5PIntegration.editor !== undefined) {
+        $(document).ready(ns.init);
+    }
+
 })(H5P.jQuery);

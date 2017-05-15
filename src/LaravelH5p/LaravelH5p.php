@@ -230,6 +230,7 @@ class LaravelH5p {
     private static function get_editor_settings($content = null) {
 
         $settings = self::get_core_settings();
+        
         $settings['editor'] = array(
             'filesPath' => self::get_h5p_storage('/editor'),
             'fileIcon' => array(
