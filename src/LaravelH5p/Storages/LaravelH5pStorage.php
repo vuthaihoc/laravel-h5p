@@ -316,7 +316,7 @@ class LaravelH5pStorage implements H5PFileStorage {
         } else {
             copy($_FILES['file']['tmp_name'], $path);
         }
-        
+
         return $file;
     }
 
@@ -526,7 +526,8 @@ class LaravelH5pStorage implements H5PFileStorage {
      * @return string Path to editor files
      */
     private function getEditorPath() {
-        return ($this->alteditorpath !== NULL ? $this->alteditorpath : "{$this->path}/editor");
+        return $this->path . "/editor";
+//        return ($this->alteditorpath !== NULL ? $this->alteditorpath : "{$this->path}/editor");
     }
 
 }
