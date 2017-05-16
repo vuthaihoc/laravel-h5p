@@ -65,8 +65,9 @@ class LaravelH5pServiceProvider extends \Illuminate\Support\ServiceProvider {
 
         // language
         $this->publishes([
-            __DIR__ . '/../../lang/ko/laravel-h5p.php' => resource_path('lang/ko/laravel-h5p.php')
-                ], 'language');
+                __DIR__ . '/../../lang/en/laravel-h5p.php' => resource_path('lang/en/laravel-h5p.php'),
+                __DIR__ . '/../../lang/ko/laravel-h5p.php' => resource_path('lang/ko/laravel-h5p.php')
+                    ], 'language');
 
         // views
         $this->publishes([

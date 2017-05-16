@@ -27,10 +27,15 @@ class ResetCommand extends Command {
      * @return void
      */
     public function fire() {
-        
+
         $this->line('');
         $this->info("Laravel-H5p Creating reset...");
-        
+
+
+        if ($this->confirm('Do you wish to continue? Remove all laravel-h5p published files.')) {
+                
+        }
+
     }
-    
+
 }
