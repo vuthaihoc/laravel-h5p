@@ -28,7 +28,6 @@
                 ns.contentId = H5PIntegration.editor.nodeVersionId;
             }
 
-
             var h5peditor;
             var $upload = $('.laravel-h5p-upload').parents('.laravel-h5p-upload-container');
             var $editor = $('#laravel-h5p-editor');
