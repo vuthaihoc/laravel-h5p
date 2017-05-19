@@ -12,7 +12,7 @@
     // setting for inside editor
     $.ajaxSetup({
         headers: {
-            'X-CSRF-TOKEN': window.parent.Laravel
+            'X-CSRF-TOKEN': window.parent.Laravel.csrfToken
         }
     });
 

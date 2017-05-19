@@ -68,9 +68,7 @@
                     }
                 }
 
-                $(this).attr('disabled', true);
-//            ns.save();
-
+                $(this).find('.btn').button('loading');
             });
 
             // Title label

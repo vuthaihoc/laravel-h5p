@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => ['web','iefix']], function () {
+Route::group(['middleware' => ['web']], function () {
 
     if (config('laravel-h5p.use_router') == 'EDITOR' || config('laravel-h5p.use_router') == 'ALL') {
         Route::group(['middleware' => ['auth']], function () {
