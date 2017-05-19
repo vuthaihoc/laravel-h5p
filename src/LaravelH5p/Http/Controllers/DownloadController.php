@@ -14,23 +14,27 @@ use Chali5124\LaravelH5p\Events\H5pEvent;
 use Chali5124\LaravelH5p\Eloquents\H5pContent;
 use Chali5124\LaravelH5p\Http\Requests\PostH5pContent;
 use Chali5124\LaravelH5p\Eloquents\H5pLibrary;
+use H5PContentValidator;
+use H5PExport;
 
 class DownloadController extends Controller {
 
     public function __invoke(Request $request, $id) {
-        $content = H5pContent::findOrFail($id);
-        $content->update($request->all());
+        $h5p = App::make('LaravelH5p');
+        $core = $h5p::$core;
+        $interface = $h5p::$interface;
 
-        $event_type = 'update';
+        $content = $core->loadContent($id);
+        $content['filtered'] = '';
+        $params = $core->filterParameters($content);
 
-        if ($request->uploaded) {
-            $event_type .= ' upload';
-        }
+        return response()
+                        ->download($interface->_download_file, '', [
+                            'Content-Type' => 'application/zip',
+                            'Cache-Control' => 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0'
+        ]);
 
-        event(new H5P_Event('content', $event_type, $content->id, $content->title, $content->library->machineName, $content->library->majorVersion, $content->library->minorVersion));
-        return redirect()
-                        ->route('laravel-h5p.library.update', $content->id)
-                        ->with('success', trans('laravel-h5p::laravel-h5p.h5p.created'));
+        event(new H5pEvent('download', NULL, $content['id'], $content['title'], $content['library']['name'], $content['library']['majorVersion'], $content['library']['minorVersion']));
     }
 
 }

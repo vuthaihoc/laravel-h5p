@@ -5,6 +5,7 @@ namespace Chali5124\LaravelH5p;
 use Chali5124\LaravelH5p\Commands\MigrationCommand;
 use Chali5124\LaravelH5p\Commands\ResetCommand;
 use Chali5124\LaravelH5p\Helpers\H5pHelper;
+use Chali5124\LaravelH5p\Http\Middleware\IeFix;
 
 class LaravelH5pServiceProvider extends \Illuminate\Support\ServiceProvider {
 
@@ -51,7 +52,9 @@ class LaravelH5pServiceProvider extends \Illuminate\Support\ServiceProvider {
      *
      * @return void
      */
-    public function boot() {
+    public function boot(\Illuminate\Routing\Router $router) {
+
+        $router->aliasMiddleware('iefix', IeFix::class);
 
         $this->loadRoutesFrom(__DIR__ . '/../../routes/laravel-h5p.php');
 

@@ -29,6 +29,7 @@ use Chali5124\LaravelH5p\Eloquents\H5pContentsUserData;
 
 class LaravelH5pRepository implements H5PFrameworkInterface {
 
+    public $_download_file = '';
     /**
      * Kesps track of messages for the user.
      *
@@ -538,7 +539,8 @@ class LaravelH5pRepository implements H5PFrameworkInterface {
      * Implements loadContent
      */
     public function loadContent($id) {
-        $return = DB::select("SELECT hc.id
+        $return = DB::select("SELECT 
+                hc.id
               , hc.title
               , hc.parameters AS params
               , hc.filtered
@@ -555,8 +557,7 @@ class LaravelH5pRepository implements H5PFrameworkInterface {
         FROM h5p_contents hc
         JOIN h5p_libraries hl ON hl.id = hc.library_id
         WHERE hc.id = ?", [$id]);
-
-        return (array) $return[0];
+        return (array) array_shift($return);
     }
 
     /**
@@ -832,13 +833,10 @@ class LaravelH5pRepository implements H5PFrameworkInterface {
 
         foreach ($libraries as $library) {
             // TODO: Avoid errors if they already exists...
-            $wpdb->insert(
-                    "h5p_libraries_cachedassets", array(
-                'library_id' => isset($library['id']) ? $library['id'] : $library['libraryId'],
-                'hash' => $key
-                    ), array(
-                '%d',
-                '%s'
+            DB::table("h5p_libraries_cachedassets")->insert(
+                    array(
+                        'library_id' => isset($library['id']) ? $library['id'] : $library['libraryId'],
+                        'hash' => $key
             ));
         }
     }
@@ -863,6 +861,17 @@ class LaravelH5pRepository implements H5PFrameworkInterface {
      * Implements afterExportCreated
      */
     public function afterExportCreated($content, $filename) {
+        
+        $this->_download_file = storage_path('h5p/exports/' . $filename);
+        
+//        $response = \Illuminate\Support\Facades\Response::class;
+//        $response->download(storage_path('h5p/exports/' . $filename))->deleteFileAfterSend(true);
+
+
+//        return [
+//            "content" => $content,
+//            "filename" => $filename
+//        ];
         // Clear cached value for dirsize.
 //        delete_transient('dirsize_cache');
 //        echo 1;

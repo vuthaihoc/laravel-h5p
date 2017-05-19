@@ -27,7 +27,7 @@ return [
     'h5p_show_display_option' => TRUE,
     
     'h5p_frame' => TRUE,
-    'h5p_export' => FALSE,
+    'h5p_export' => TRUE,
     'h5p_embed' => TRUE,
     'h5p_copyright' => FALSE,
     'h5p_icon' => TRUE,
@@ -37,7 +37,7 @@ return [
     'h5p_save_content_state' => FALSE,
     'h5p_save_content_frequency' => 30,
     'h5p_site_key' => [
-        'h5p_h5p_site_uuid' => TRUE
+        'h5p_h5p_site_uuid' => FALSE
     ],
     'h5p_content_type_cache_updated_at' => 0,
     'h5p_check_h5p_requirements' => FALSE,

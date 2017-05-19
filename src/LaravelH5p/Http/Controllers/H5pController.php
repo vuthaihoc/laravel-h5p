@@ -326,9 +326,6 @@ class H5pController extends Controller {
 
             $storage->savePackage($content, NULL, $skipContent);
 
-
-            dd($storage);
-
             // Clear cached value for dirsize.
             return $storage->contentId;
         }

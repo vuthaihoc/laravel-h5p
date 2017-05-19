@@ -1,12 +1,12 @@
 <?php
 
-Route::group(['middleware' => ['web']], function () {
+Route::group(['middleware' => ['web','iefix']], function () {
 
     if (config('laravel-h5p.use_router') == 'EDITOR' || config('laravel-h5p.use_router') == 'ALL') {
         Route::group(['middleware' => ['auth']], function () {
             Route::resource('h5p', "Chali5124\LaravelH5p\Http\Controllers\H5pController");
-            Route::get('h5p/export', 'Chali5124\LaravelH5p\Http\Controllers\H5pController@export')->name("h5p.export");
-            
+//            Route::get('h5p/export', 'Chali5124\LaravelH5p\Http\Controllers\H5pController@export')->name("h5p.export");
+
             Route::get('library', "Chali5124\LaravelH5p\Http\Controllers\LibraryController@index")->name("h5p.library.index");
             Route::get('library/show/{id}', "Chali5124\LaravelH5p\Http\Controllers\LibraryController@show")->name("h5p.library.show");
             Route::post('library/store', "Chali5124\LaravelH5p\Http\Controllers\LibraryController@store")->name("h5p.library.store");
@@ -28,12 +28,11 @@ Route::group(['middleware' => ['web']], function () {
         Route::post('ajax/files', 'Chali5124\LaravelH5p\Http\Controllers\AjaxController@files')->name("h5p.ajax.files");
         Route::get('ajax/finish', 'Chali5124\LaravelH5p\Http\Controllers\AjaxController@finish')->name("h5p.ajax.finish");
         Route::post('ajax/content-user-data', 'Chali5124\LaravelH5p\Http\Controllers\AjaxController@contentUserData')->name("h5p.ajax.content-user-data");
-        
     }
 
     // export
-    if (config('laravel-h5p.use_router') == 'EXPORT' || config('laravel-h5p.use_router') == 'ALL') {
+//    if (config('laravel-h5p.use_router') == 'EXPORT' || config('laravel-h5p.use_router') == 'ALL') {
         Route::get('h5p/embed/{id}', 'Chali5124\LaravelH5p\Http\Controllers\EmbedController')->name("h5p.embed");
-//        Route::get('h5p/download/{id}', 'Chali5124\LaravelH5p\Http\Controllers\DownloadController')->name("h5p.donwload");
-    }
+        Route::get('h5p/export/{id}', 'Chali5124\LaravelH5p\Http\Controllers\DownloadController')->name("h5p.export");
+//    }
 });

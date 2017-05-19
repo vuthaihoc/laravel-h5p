@@ -31,6 +31,8 @@ use Chali5124\LaravelH5p\Repositories\EditorAjaxRepository;
 use Chali5124\LaravelH5p\Storages\EditorStorage;
 use Illuminate\Support\Facades\Auth;
 
+
+
 //H5P_Plugin
 class LaravelH5p {
 
@@ -318,7 +320,7 @@ class LaravelH5p {
             'library' => H5PCore::libraryToString($content['library']),
             'jsonContent' => $safe_parameters,
             'fullScreen' => $content['library']['fullscreen'],
-            'exportUrl' => config('laravel-h5p.h5p_export') ? self::get_h5pcore_url() . route('h5p.export', ['id' => $content['id']]) : '',
+            'exportUrl' => config('laravel-h5p.h5p_export') ? route('h5p.export', [$content['id']]) : '',
             'embedCode' => '<iframe src="' . route('h5p.embed', ['id' => $content['id']]) . '" width=":w" height=":h" frameborder="0" allowfullscreen="allowfullscreen"></iframe>',
             'resizeCode' => '<script src="' . self::get_h5pcore_url('/js/h5p-resizer.js') . '" charset="UTF-8"></script>',
             'url' => route('h5p.embed', ['id' => $content['id']]),
