@@ -27,7 +27,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::post('ajax/rebuild-cache', 'Chali5124\LaravelH5p\Http\Controllers\AjaxController@rebuildCache')->name("h5p.ajax.rebuild-cache");
         Route::post('ajax/files', 'Chali5124\LaravelH5p\Http\Controllers\AjaxController@files')->name("h5p.ajax.files");
         Route::get('ajax/finish', 'Chali5124\LaravelH5p\Http\Controllers\AjaxController@finish')->name("h5p.ajax.finish");
-        Route::get('ajax/content-user-data', 'Chali5124\LaravelH5p\Http\Controllers\AjaxController@contentUserData')->name("h5p.ajax.content-user-data");
+        Route::post('ajax/content-user-data', 'Chali5124\LaravelH5p\Http\Controllers\AjaxController@contentUserData')->name("h5p.ajax.content-user-data");
         
     }
 

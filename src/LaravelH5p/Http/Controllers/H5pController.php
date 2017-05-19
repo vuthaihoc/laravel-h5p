@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use H5pCore;
 use H5peditor;
 use Chali5124\LaravelH5p\LaravelH5p;
+use Chali5124\LaravelH5p\Exceptions;
 use Chali5124\LaravelH5p\Events\H5pEvent;
 use Chali5124\LaravelH5p\Eloquents\H5pContent;
 use Chali5124\LaravelH5p\Http\Requests\PostH5pContent;
@@ -47,62 +48,107 @@ class H5pController extends Controller {
     }
 
     public function store(Request $request) {
-        $this->validate($request, [
-            'title' => 'required|max:250',
-            'library' => 'required',
-            'parameters' => 'required',
-            'action' => 'required|in:create,action',
-                ], [], [
-            'title' => trans('laravel-h5p.content.title'),
-            'library' => trans('laravel-h5p.content.library'),
-            'parameters' => trans('laravel-h5p.content.parameters'),
-            'action' => trans('laravel-h5p.content.action'),
-        ]);
+
+
+//        $this->validate($request, [
+//            'title' => 'required|max:250',
+//            'library' => 'required',
+//            'parameters' => 'required',
+//            'action' => 'required',
+//                ], [], [
+//            'title' => trans('laravel-h5p.content.title'),
+//            'library' => trans('laravel-h5p.content.library'),
+//            'parameters' => trans('laravel-h5p.content.parameters'),
+//            'action' => trans('laravel-h5p.content.action'),
+//        ]);
 
         $h5p = App::make('LaravelH5p');
         $core = $h5p::$core;
+        $editor = $h5p::$h5peditor;
+
+        $this->validate($request, [
+            'title' => 'required|max:250',
+            'action' => 'required',
+                ], [], [
+            'title' => trans('laravel-h5p.content.title'),
+            'action' => trans('laravel-h5p.content.action'),
+        ]);
+
 
         $oldLibrary = NULL;
         $oldParams = NULL;
-        $content = array(
-            'disable' => H5PCore::DISABLE_NONE
-        );
-
-        $content['library'] = $core->libraryFromString($request->get('library'));
-        $content['library_id'] = $core->h5pF->getLibraryId($content['library']['machineName'], $content['library']['majorVersion'], $content['library']['minorVersion']);
-        $content['embed_type'] = 'div';
-        $content['user_id'] = Auth::id();
-        $content['created_at'] = \Carbon\Carbon::now();
-        $content['filtered'] = '';
-        $content['disable'] = $request->get('disable') ? $request->get('disable') : false;
-        $content['slug'] = config('laravel-h5p.slug');
-        $content['title'] = $request->get('title');
-        $content['parameters'] = $request->get('parameters');
-//        $content['params'] = $request->get('parameters');
-        $params = json_decode($content['parameters']);
-        $this->get_disabled_content_features($core, $content);
-
-        // Save new content
-        $content['id'] = $core->saveContent($content);
-        // Move images and find all content dependencies
-        $editor = $h5p::$h5peditor;
-        $editor->processParameters($content['id'], $content['library'], $params, $oldLibrary, $oldParams);
-        //$content['params'] = json_encode($params);
-
         $event_type = 'create';
-        if ($request->hasFile('h5p_file')) {
-            $event_type .= ' upload';
-        }
+        $content = array(
+            'disable' => H5PCore::DISABLE_NONE,
+            'user_id' => Auth::id(),
+            'title' => $request->get('title'),
+            'embed_type' => 'div',
+            'filtered' => '',
+            'slug' => config('laravel-h5p.slug')            
+        );
+                
 
-        event(new H5pEvent('content', $event_type, $content['id'], $content['title'], $content['library']['machineName'], $content['library']['majorVersion'], $content['library']['minorVersion']));
+        $content['filtered'] = '';
 
-        return redirect()
-                        ->route('h5p.edit', $content['id'])
-                        ->with('success', trans('laravel-h5p.content.created'));
+        try {
+            if ($request->get('action') === 'create') {
+                $content['library'] = $core->libraryFromString($request->get('library'));
+                if (!$content['library']) {
+                    throw new H5PException('Invalid library.');
+                }
+
+                // Check if library exists.
+                $content['library']['libraryId'] = $core->h5pF->getLibraryId($content['library']['machineName'], $content['library']['majorVersion'], $content['library']['minorVersion']);
+                if (!$content['library']['libraryId']) {
+                    throw new H5PException('No such library');
+                }
+
+//                $content['parameters'] = $request->get('parameters');
+                $content['params'] = $request->get('parameters');
+                $params = json_decode($content['params']);
+                if ($params === NULL) {
+                    throw new H5PException('Invalid parameters');
+                }
+
+                // Set disabled features
+                $this->get_disabled_content_features($core, $content);
+
+                // Save new content
+                $content['id'] = $core->saveContent($content);
+
+                // Move images and find all content dependencies
+                $editor->processParameters($content['id'], $content['library'], $params, $oldLibrary, $oldParams);
+
+                event(new H5pEvent('content', $event_type, $content['id'], $content['title'], $content['library']['machineName'], $content['library']['majorVersion'], $content['library']['minorVersion']));
+
+                $return_id = $content['id'];
+            } elseif ($request->get('action') === 'upload') {
+
+                $content['uploaded'] = true;
+
+                $this->get_disabled_content_features($core, $content);
+
+                // Handle file upload
+                $return_id = $this->handle_upload($content);
+            }
+
+            if ($return_id) {
+                return redirect()
+                                ->route('h5p.edit', $return_id)
+                                ->with('success', trans('laravel-h5p.content.created'));
+            } else {
+                return redirect()
+                                ->route('h5p.create')
+                                ->with('fail', trans('laravel-h5p.content.can_not_created'));
+            }
+        } catch (H5PException $ex) {
+            return redirect()
+                            ->route('h5p.create')
+                            ->with('fail', trans('laravel-h5p.content.can_not_created'));
+        }        
     }
 
     public function edit(Request $request, $id) {
-
         $h5p = App::make('LaravelH5p');
         $core = $h5p::$core;
         $content = $h5p::get_content($id);
@@ -125,42 +171,88 @@ class H5pController extends Controller {
     public function update(Request $request, $id) {
         $h5p = App::make('LaravelH5p');
         $core = $h5p::$core;
-
-        $content = $h5p::get_content($id);
-        $oldLibrary = $content['library'];
-        $oldParams = json_decode($content['params']);
-
-        $content['library'] = $core->libraryFromString($request->get('library'));
-        $content['library_id'] = $core->h5pF->getLibraryId($content['library']['machineName'], $content['library']['majorVersion'], $content['library']['minorVersion']);
-        $content['embed_type'] = 'div';
-        $content['user_id'] = Auth::id();
-        $content['created_at'] = \Carbon\Carbon::now();
-        $content['filtered'] = '';
-        $content['disable'] = $request->get('disable') ? $request->get('disable') : false;
-        $content['slug'] = config('laravel-h5p.slug');
-        $content['title'] = $request->get('title');
-        $content['parameters'] = $request->get('parameters');
-        $content['params'] = $request->get('parameters');
-        $params = json_decode($content['params']);
-        $this->get_disabled_content_features($core, $content);
-
-        // Save new content
-        $core->saveContent($content);
-        // Move images and find all content dependencies
         $editor = $h5p::$h5peditor;
-        $editor->processParameters($content['id'], $content['library'], $params, $oldLibrary, $oldParams);
+
+        $this->validate($request, [
+            'title' => 'required|max:250',
+            'action' => 'required',
+                ], [], [
+            'title' => trans('laravel-h5p.content.title'),
+            'action' => trans('laravel-h5p.content.action'),
+        ]);
 
 
         $event_type = 'update';
-        if ($request->hasFile('h5p_file')) {
-            $event_type .= ' upload';
+        $content = $h5p::get_content($id);
+        $content['embed_type'] = 'div';
+        $content['user_id'] = Auth::id();
+        $content['disable'] = $request->get('disable') ? $request->get('disable') : false;
+        $content['title'] = $request->get('title');
+        
+        $oldLibrary = $content['library'];
+        $oldParams = json_decode($content['params']);
+        
+        try {
+            if ($request->get('action') === 'create') {
+                $content['library'] = $core->libraryFromString($request->get('library'));
+                if (!$content['library']) {
+                    throw new H5PException('Invalid library.');
+                }
+
+                // Check if library exists.
+                $content['library']['libraryId'] = $core->h5pF->getLibraryId($content['library']['machineName'], $content['library']['majorVersion'], $content['library']['minorVersion']);
+                if (!$content['library']['libraryId']) {
+                    throw new H5PException('No such library');
+                }
+
+//                $content['parameters'] = $request->get('parameters');
+                $content['params'] = $request->get('parameters');
+                $params = json_decode($content['params']);
+                if ($params === NULL) {
+                    throw new H5PException('Invalid parameters');
+                }
+
+                // Set disabled features
+                $this->get_disabled_content_features($core, $content);
+
+                // Save new content
+                $core->saveContent($content);
+
+                // Move images and find all content dependencies
+                $editor->processParameters($content['id'], $content['library'], $params, $oldLibrary, $oldParams);
+
+                event(new H5pEvent('content', $event_type, $content['id'], $content['title'], $content['library']['machineName'], $content['library']['majorVersion'], $content['library']['minorVersion']));
+
+                $return_id = $content['id'];
+            } elseif ($request->get('action') === 'upload') {
+
+                $content['uploaded'] = true;
+
+                $this->get_disabled_content_features($core, $content);
+
+                // Handle file upload
+                $return_id = $this->handle_upload($content);
+            }
+
+            if ($return_id) {
+                return redirect()
+                                ->route('h5p.edit', $return_id)
+                                ->with('success', trans('laravel-h5p.content.updated'));
+            } else {
+                return redirect()
+                                ->back()
+                                ->with('fail', trans('laravel-h5p.content.can_not_updated'));
+            }
+        } catch (H5PException $ex) {
+            return redirect()
+                            ->back()
+                            ->with('fail', trans('laravel-h5p.content.can_not_updated'));
         }
-
-        event(new H5pEvent('content', $event_type, $content['id'], $content['title'], $content['library']['machineName'], $content['library']['majorVersion'], $content['library']['minorVersion']));
-
-        return redirect()
-                        ->route('h5p.edit', $content['id'])
-                        ->with('success', trans('laravel-h5p.content.updated'));
+        
+        
+//        return redirect()
+//                        ->route('h5p.edit', $content['id'])
+//                        ->with('success', trans('laravel-h5p.content.updated'));
     }
 
     public function show(Request $request, $id) {
@@ -195,6 +287,54 @@ class H5pController extends Controller {
             H5PCore::DISPLAY_OPTION_COPYRIGHT => filter_input(INPUT_POST, 'copyright', FILTER_VALIDATE_BOOLEAN),
         );
         $content['disable'] = $core->getStorableDisplayOptions($set, $content['disable']);
+    }
+
+    private function handle_upload($content = NULL, $only_upgrade = NULL, $disable_h5p_security = false) {
+
+        $h5p = App::make('LaravelH5p');
+        $core = $h5p::$core;
+        $validator = $h5p::$validator;
+        $interface = $h5p::$interface;
+        $storage = $h5p::$storage;
+
+        if ($disable_h5p_security) {
+            // Make it possible to disable file extension check
+            $core->disableFileCheck = (filter_input(INPUT_POST, 'h5p_disable_file_check', FILTER_VALIDATE_BOOLEAN) ? TRUE : FALSE);
+        }
+
+        // Move so core can validate the file extension.
+        rename($_FILES['h5p_file']['tmp_name'], $interface->getUploadedH5pPath());
+
+        $skipContent = ($content === NULL);
+
+        if ($validator->isValidPackage($skipContent, $only_upgrade) && ($skipContent || $content['title'] !== NULL)) {
+            if (function_exists('check_upload_size')) {
+                // Check file sizes before continuing!
+                $tmpDir = $interface->getUploadedH5pFolderPath();
+                $error = self::check_upload_sizes($tmpDir);
+                if ($error !== NULL) {
+                    // Didn't meet space requirements, cleanup tmp dir.
+                    $interface->setErrorMessage($error);
+                    H5PCore::deleteFileTree($tmpDir);
+                    return FALSE;
+                }
+            }
+            // No file size check errors
+            if (isset($content['id'])) {
+                $interface->deleteLibraryUsage($content['id']);
+            }
+
+            $storage->savePackage($content, NULL, $skipContent);
+
+
+            dd($storage);
+
+            // Clear cached value for dirsize.
+            return $storage->contentId;
+        }
+        // The uploaded file was not a valid H5P package
+        @unlink($interface->getUploadedH5pPath());
+        return FALSE;
     }
 
 }

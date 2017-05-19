@@ -38,6 +38,8 @@ return [
         "confirm_destory" => "Are you sure remove a content?",
         'can_not_find_content' => 'Cannot find library with #:id',
         'missing_h5p_identifier' => 'Missing H5P identifier.',
+                "can_not_created" => "Can not create.",
+        "can_not_updated" => "Can not update.",
     ],
     'library' => [
         'title' => 'Title',

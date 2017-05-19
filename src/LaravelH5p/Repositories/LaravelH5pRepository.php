@@ -349,9 +349,8 @@ class LaravelH5pRepository implements H5PFrameworkInterface {
         $content['filtered'] = $entry['filtered'];
         $content['disable'] = $entry['disable'];
         $content['slug'] = $entry['slug'];
-//        $content['library'] = $entry['library'];
-        $content['library_id'] = $entry['library_id'];
-        $content['parameters'] = $entry['parameters'];
+        $content['library_id'] = $entry['library']['libraryId'];
+        $content['parameters'] = $entry['params'];
 
         if (!isset($entry['id'])) {
             $content['created_at'] = isset($entry['created_at']) ? $entry['created_at'] : Carbon::now();
@@ -359,7 +358,6 @@ class LaravelH5pRepository implements H5PFrameworkInterface {
             // Insert new content
             $return = H5pContent::create($content);
             $content['id'] = $return->id;
-//            $content['id'] = Db::table('h5p_contents')->insertGetId($content);
             $event_type = 'create';
         } else {
 
@@ -513,6 +511,7 @@ class LaravelH5pRepository implements H5PFrameworkInterface {
                     ->first();
 //                    DB::select("SELECT semantics FROM h5p_libraries WHERE name = ? AND major_version = ? AND minor_version = ?", [$name, $majorVersion, $minorVersion]);
         }
+
         return ($semantics === FALSE ? NULL : $semantics->semantics);
     }
 
