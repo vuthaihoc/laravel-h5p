@@ -31,8 +31,6 @@ use Chali5124\LaravelH5p\Repositories\EditorAjaxRepository;
 use Chali5124\LaravelH5p\Storages\EditorStorage;
 use Illuminate\Support\Facades\Auth;
 
-
-
 //H5P_Plugin
 class LaravelH5p {
 
@@ -159,7 +157,19 @@ class LaravelH5p {
             $files = $core->getDependenciesFiles($preloaded_dependencies);
             $this->alter_assets($files, $preloaded_dependencies, $embed);
             if ($embed === 'div') {
-                $this->enqueue_assets($files);
+//                $this->enqueue_assets($files);
+                foreach ($files['scripts'] as $script) {
+                    $url = $script->path . $script->version;
+                    if (!in_array($url, $settings['loadedJs'])) {
+                        $settings['loadedJs'][] = self::get_h5p_url($url);
+                    }
+                }
+                foreach ($files['styles'] as $style) {
+                    $url = $style->path . $style->version;
+                    if (!in_array($url, $settings['loadedCss'])) {
+                        $settings['loadedCss'][] = self::get_h5p_url($url);
+                    }
+                }
             } elseif ($embed === 'iframe') {
                 $settings['contents'][$cid]['scripts'] = $core->getAssetsUrls($files['scripts']);
                 $settings['contents'][$cid]['styles'] = $core->getAssetsUrls($files['styles']);
@@ -200,7 +210,7 @@ class LaravelH5p {
                 'mail' => Auth::user()->email
             );
         }
-        
+
         return $settings;
     }
 
@@ -312,7 +322,6 @@ class LaravelH5p {
 //            // Stringify the JSON parameters
 //            $safe_parameters = json_encode($decoded_parameters);
 //        }
-
         // Getting author's user id
         $author_id = (int) (is_array($content) ? $content['user_id'] : $content->user_id);
         // Add JavaScript settings for this content
