@@ -26,10 +26,16 @@ class H5pController extends Controller {
         if ($request->query('sf') && $request->query('s')) {
 
             if ($request->query('sf') == 'title') {
-                $where->where('h5p_contents.title', 'like', "%". $request->query('s') . "%" );
+                $where->where('h5p_contents.title', $request->query('s'));
             }
             if ($request->query('sf') == 'creator') {
+//                $where->has('users.name', 'like', "%" . $request->query('s') . "%");
+
                 $where->leftJoin('users', 'users.id', 'h5p_contents.user_id')->where('users.name', 'like', "%" . $request->query('s') . "%");
+
+//                $where->where('user_id', function($query) {
+//                    $query->where('users.name', 'like', "%12%");
+//                });
             }
         }
 
@@ -276,20 +282,9 @@ class H5pController extends Controller {
         $core = $h5p::$core;
         $content = $h5p::get_content($id);
 
-        // Prepare form
-//        $library = $content['library'] ? H5PCore::libraryToString($content['library']) : 0;
-//        $parameters = $content['params'] ? $content['params'] : '{}';
-//        $display_options = $core->getDisplayOptionsForEdit($content['disable']);
-        // view 에서 출력할 파일과 세팅을 가져온다
         $settings = $h5p::get_editor($content);
-//        $settings = $h5p::get_core();
         $embed_code = $h5p->get_embed($content, $settings);
         $user = Auth::user();
-
-        
-        
-//        dd($settings);
-
 
         event(new H5pEvent('content', NULL, $content['id'], $content['title'], $content['library']['name'], $content['library']['majorVersion'], $content['library']['minorVersion']));
 
@@ -297,8 +292,13 @@ class H5pController extends Controller {
     }
 
     public function destroy(Request $request, $id) {
-        $content = H5pContent::findOrFail($id);
-        $content->destory();
+
+        try {
+            $content = H5pContent::findOrFail($id);
+            $content->delete();
+        } catch (Exception $ex) {
+            return trans("laravel-h5p.content.can_not_delete");
+        }
     }
 
     private function get_disabled_content_features($core, &$content) {

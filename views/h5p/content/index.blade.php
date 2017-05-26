@@ -38,10 +38,10 @@
             <table class="table text-middle text-center h5p-lists">
                 <colgroup>
                     <col width="10%">
-                    <col width="20%">
+                    <col width="15%">
                     <col width="*">
                     <col width="10%">
-                    <col width="10%">
+                    <col width="15%">
                 </colgroup>
 
                 <thead>
@@ -81,6 +81,8 @@
 
                         <td>
                             <a href="{{ route('h5p.edit', $entry->id) }}" class="btn btn-default"  data-tooltip="{pos:'top'}" title="{{ trans('laravel-h5p.content.edit') }}">{{ trans('laravel-h5p.content.edit') }}</a>
+
+                            <button class="btn btn-default h5p-delete" data-delete="{{ route('h5p.destroy', $entry->id) }}" data-tooltip="{pos:'top'}" title="{{ trans('laravel-h5p.content.destroy') }}">{{ trans('laravel-h5p.content.destroy') }}</button>
                         </td>
                     </tr>
                     @endforeach
@@ -110,5 +112,29 @@
 
 @push( 'h5p-footer-script' )
 <script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('.h5p-delete').on('click', function () {
+
+            var $obj = $(this);
+            var msg = "{{ trans('laravel-h5p.content.confirm_destroy') }}";
+            if (confirm(msg)) {
+
+                $.ajax({
+                    url: $obj.data('delete'),
+                    method: "DELETE",
+                    success: function (data) {
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("{{ trans('laravel-h5p.content.can_not_delete') }}");
+                    }
+                })
+            }
+
+        });
+    });
+
 </script>
 @endpush
