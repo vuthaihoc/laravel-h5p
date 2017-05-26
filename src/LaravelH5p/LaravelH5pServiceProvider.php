@@ -54,8 +54,6 @@ class LaravelH5pServiceProvider extends \Illuminate\Support\ServiceProvider {
      */
     public function boot(\Illuminate\Routing\Router $router) {
 
-        // $router->aliasMiddleware('iefix', IeFix::class);
-
         $this->loadRoutesFrom(__DIR__ . '/../../routes/laravel-h5p.php');
 
         // config

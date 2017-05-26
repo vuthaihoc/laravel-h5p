@@ -3,25 +3,37 @@
 @section( 'h5p' )
 <div class="container-fluid">
 
-    <div class="row">
 
-        <div class="col-md-12">
-            <div class="form-group">
+
+    <div class="row" style="margin-bottom: 10px;">
+
+        <div class="col-md-9">
+
+
+
+            {!! Form::open(['route'=>"h5p.index", 'class'=>'form-inline', 'method'=>'GET']) !!}
+            <fieldset>
                 <p class="form-control-static">
                     {{ trans('laravel-h5p.content.search-result', ['count' => number_format($entrys->total())]) }}
-
-                    <a href="{{ route("h5p.create") }}" class="btn btn-primary pull-right">{{ trans('laravel-h5p.content.create') }}</a>
                 </p>
-            </div>
+
+                {!! Form::select('sf', $search_fields, [], ['class'=>'form-control']) !!}
+                <input type="text" class="form-control" placeholder="{{ trans('laravel-h5p.content.keyword') }}" name='s' value='{{ $request->get('s') }}'>
+                <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> {{ trans('laravel-h5p.content.search') }}</button>
+            </fieldset>
+
+            {!! Form::close() !!}
 
         </div>
 
+        <div class="col-md-3">
+            <a href="{{ route("h5p.create") }}" class="btn btn-primary pull-right">{{ trans('laravel-h5p.content.create') }}</a>
+        </div>
     </div>
-    
+
     <div class="row">
 
         <div class="col-md-12">
-
 
             <table class="table text-middle text-center h5p-lists">
                 <colgroup>
@@ -97,6 +109,6 @@
 @endpush
 
 @push( 'h5p-footer-script' )
-    <script type="text/javascript">
-    </script>
+<script type="text/javascript">
+</script>
 @endpush

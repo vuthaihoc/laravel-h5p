@@ -150,7 +150,11 @@ class LaravelH5p {
         // Make sure content isn't added twice
         $cid = 'cid-' . $content['id'];
         if (!isset($settings['contents'][$cid])) {
-            $settings['contents'][$cid] = $this->get_content_settings($content);
+            $settings['contents'][$cid] = self::get_content_settings($content);
+
+//            $settings = self::get_content_files($settings, $content);
+//            dd($settings);
+
             $core = self::$core;
             // Get assets for this content
             $preloaded_dependencies = $core->loadContentDependencies($content['id'], 'preloaded');

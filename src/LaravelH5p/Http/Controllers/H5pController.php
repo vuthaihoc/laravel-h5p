@@ -21,9 +21,31 @@ class H5pController extends Controller {
 
     public function index(Request $request) {
 
-        $where = H5pContent::orderBy('id', 'desc');
+        $where = H5pContent::orderBy('h5p_contents.id', 'desc');
+
+        if ($request->query('sf') && $request->query('s')) {
+
+            if ($request->query('sf') == 'title') {
+                $where->where('h5p_contents.title', $request->query('s'));
+            }
+            if ($request->query('sf') == 'creator') {
+//                $where->has('users.name', 'like', "%" . $request->query('s') . "%");
+
+                $where->leftJoin('users', 'users.id', 'h5p_contents.user_id')->where('users.name', 'like', "%" . $request->query('s') . "%");
+
+//                $where->where('user_id', function($query) {
+//                    $query->where('users.name', 'like', "%12%");
+//                });
+            }
+        }
+
+        $search_fields = [
+            "title" => trans('laravel-h5p.content.title'),
+            "creator" => trans('laravel-h5p.content.creator')
+        ];
         $entrys = $where->paginate(10);
-        return view('h5p.content.index', compact("entrys"));
+        $entrys->appends(['sf' => $request->query('sf'), 's' => $request->query('s')]);
+        return view('h5p.content.index', compact("entrys", 'request', 'search_fields'));
     }
 
     public function create(Request $request) {
@@ -84,9 +106,9 @@ class H5pController extends Controller {
             'title' => $request->get('title'),
             'embed_type' => 'div',
             'filtered' => '',
-            'slug' => config('laravel-h5p.slug')            
+            'slug' => config('laravel-h5p.slug')
         );
-                
+
 
         $content['filtered'] = '';
 
@@ -145,7 +167,7 @@ class H5pController extends Controller {
             return redirect()
                             ->route('h5p.create')
                             ->with('fail', trans('laravel-h5p.content.can_not_created'));
-        }        
+        }
     }
 
     public function edit(Request $request, $id) {
@@ -188,10 +210,10 @@ class H5pController extends Controller {
         $content['user_id'] = Auth::id();
         $content['disable'] = $request->get('disable') ? $request->get('disable') : false;
         $content['title'] = $request->get('title');
-        
+
         $oldLibrary = $content['library'];
         $oldParams = json_decode($content['params']);
-        
+
         try {
             if ($request->get('action') === 'create') {
                 $content['library'] = $core->libraryFromString($request->get('library'));
@@ -248,8 +270,8 @@ class H5pController extends Controller {
                             ->back()
                             ->with('fail', trans('laravel-h5p.content.can_not_updated'));
         }
-        
-        
+
+
 //        return redirect()
 //                        ->route('h5p.edit', $content['id'])
 //                        ->with('success', trans('laravel-h5p.content.updated'));
@@ -258,12 +280,22 @@ class H5pController extends Controller {
     public function show(Request $request, $id) {
         $h5p = App::make('LaravelH5p');
         $core = $h5p::$core;
+        $content = $h5p::get_content($id);
 
-        $settings = $h5p::get_core();
-
-        $content = $h5p->get_content($id);
-
+        // Prepare form
+//        $library = $content['library'] ? H5PCore::libraryToString($content['library']) : 0;
+//        $parameters = $content['params'] ? $content['params'] : '{}';
+//        $display_options = $core->getDisplayOptionsForEdit($content['disable']);
+        // view 에서 출력할 파일과 세팅을 가져온다
+        $settings = $h5p::get_editor($content);
+//        $settings = $h5p::get_core();
         $embed_code = $h5p->get_embed($content, $settings);
+        $user = Auth::user();
+
+        
+        
+//        dd($settings);
+
 
         event(new H5pEvent('content', NULL, $content['id'], $content['title'], $content['library']['name'], $content['library']['majorVersion'], $content['library']['minorVersion']));
 

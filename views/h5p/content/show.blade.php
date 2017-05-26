@@ -29,6 +29,10 @@
 @foreach($settings['core']['styles'] as $style)
 {{ Html::style($style) }}
 @endforeach
+{{--    load styles       --}}
+@foreach($settings['loadedCss'] as $style)
+{{ Html::style($style) }}
+@endforeach
 @endpush
 
 @push( 'h5p-footer-script' )
@@ -38,6 +42,11 @@
 
 {{--    core script       --}}
 @foreach($settings['core']['scripts'] as $script)
+{{ Html::script($script) }}
+@endforeach
+
+{{--    load script       --}}
+@foreach($settings['loadedJs'] as $script)
 {{ Html::script($script) }}
 @endforeach
 @endpush

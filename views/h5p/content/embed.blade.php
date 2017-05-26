@@ -18,6 +18,10 @@
         @foreach($settings['core']['styles'] as $style)
         {{ Html::style($style) }}
         @endforeach
+        
+        @foreach($settings['loadedCss'] as $style)
+        {{ Html::style($style) }}
+        @endforeach
     </head>
 
     <body>
@@ -27,7 +31,6 @@
         </div>
 
         <script type="text/javascript" src="{{ url('/assets/js/app.js') }}"></script>        
-       
         <script type="text/javascript">
             H5PIntegration = {!! json_encode($settings) !!};
         </script>
@@ -37,6 +40,9 @@
         {{ Html::script($script) }}
         @endforeach
 
+        @foreach($settings['loadedJs'] as $script)
+        {{ Html::script($script) }}
+        @endforeach
+
     </body>
 </html>
-
