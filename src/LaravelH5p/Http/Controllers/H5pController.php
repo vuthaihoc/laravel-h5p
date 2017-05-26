@@ -26,16 +26,10 @@ class H5pController extends Controller {
         if ($request->query('sf') && $request->query('s')) {
 
             if ($request->query('sf') == 'title') {
-                $where->where('h5p_contents.title', $request->query('s'));
+                $where->where('h5p_contents.title', 'like' "%". $request->query('s') . "%" );
             }
             if ($request->query('sf') == 'creator') {
-//                $where->has('users.name', 'like', "%" . $request->query('s') . "%");
-
                 $where->leftJoin('users', 'users.id', 'h5p_contents.user_id')->where('users.name', 'like', "%" . $request->query('s') . "%");
-
-//                $where->where('user_id', function($query) {
-//                    $query->where('users.name', 'like', "%12%");
-//                });
             }
         }
 
