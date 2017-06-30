@@ -30,6 +30,7 @@ use Chali5124\LaravelH5p\Eloquents\H5pContentsUserData;
 class LaravelH5pRepository implements H5PFrameworkInterface {
 
     public $_download_file = '';
+
     /**
      * Kesps track of messages for the user.
      *
@@ -610,14 +611,7 @@ class LaravelH5pRepository implements H5PFrameworkInterface {
         if ($name === 'site_uuid') {
             $name = 'h5p_site_uuid'; // Make up for old core bug
         }
-        $var = $this->getOption($name);
-        $name = 'h5p_' . $name; // Always prefix to avoid conflicts
-        config('laravel-h5p.h5p_' . $name, $value);
-//        if ($var === FALSE) {
-//            config('laravel-h5p.h5p_' . $name, $value);
-//        } else {
-//            config('laravel-h5p.h5p_' . $name, $value);
-//        }
+        config(['laravel-h5p.h5p_' . $name => $value]);
     }
 
     /**
@@ -719,6 +713,7 @@ class LaravelH5pRepository implements H5PFrameworkInterface {
 
 
         $client = new Client();
+
 
         try {
             if ($data !== NULL) {
@@ -861,13 +856,11 @@ class LaravelH5pRepository implements H5PFrameworkInterface {
      * Implements afterExportCreated
      */
     public function afterExportCreated($content, $filename) {
-        
+
         $this->_download_file = storage_path('h5p/exports/' . $filename);
-        
+
 //        $response = \Illuminate\Support\Facades\Response::class;
 //        $response->download(storage_path('h5p/exports/' . $filename))->deleteFileAfterSend(true);
-
-
 //        return [
 //            "content" => $content,
 //            "filename" => $filename
