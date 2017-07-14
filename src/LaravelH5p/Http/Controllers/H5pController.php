@@ -11,6 +11,7 @@ use H5pCore;
 use H5peditor;
 use Chali5124\LaravelH5p\LaravelH5p;
 use Chali5124\LaravelH5p\Exceptions;
+use Chali5124\LaravelH5p\Exceptions\H5PException;
 use Chali5124\LaravelH5p\Events\H5pEvent;
 use Chali5124\LaravelH5p\Eloquents\H5pContent;
 use Chali5124\LaravelH5p\Http\Requests\PostH5pContent;
