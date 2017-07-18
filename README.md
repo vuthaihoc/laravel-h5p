@@ -1,6 +1,6 @@
-Copyright (c) 2016, chali5124@gmail.com. All rights reserved.
-
 # H5P Plugin in Laravel Framework 
+
+I will be back 18 July... with more update.... Sorry... 
 
 ## Installation
 

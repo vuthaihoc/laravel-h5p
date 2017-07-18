@@ -55,7 +55,7 @@ class AjaxController extends Controller {
     }
 
     public function libraryUpload(Request $request) {
-        $filePath = $request->file('h5p')->tmp_name;
+        $filePath = $request->file('h5p')->getPathName();
         $h5p = App::make('LaravelH5p');
         $editor = $h5p::$h5peditor;
         $editor->ajax->action(H5PEditorEndpoints::LIBRARY_UPLOAD, $request->get('_token'), $filePath, $request->get('contentId'));
