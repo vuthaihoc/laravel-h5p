@@ -312,8 +312,6 @@ class LaravelH5p {
      */
     public static function get_content_settings($content) {
         $safe_parameters = self::$core->filterParameters($content);
-        $safe_parameters = $content['params'];
-
 //        if (has_action('h5p_alter_filtered_parameters')) {
 //            // Parse the JSON parameters
 //            $decoded_parameters = json_decode($safe_parameters);

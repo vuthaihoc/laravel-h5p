@@ -195,6 +195,7 @@ class H5pController extends Controller {
                 $content['user_id'] = Auth::id();
                 $content['disable'] = $request->get('disable') ? $request->get('disable') : false;
                 $content['title'] = $request->get('title');
+                $content['filtered'] = '';
 
                 $oldLibrary = $content['library'];
                 $oldParams = json_decode($content['params']);
