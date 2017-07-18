@@ -311,7 +311,7 @@ class LaravelH5p {
      */
     public static function get_content_settings($content) {
         $safe_parameters = self::$core->filterParameters($content);
-
+        $safe_parameters = $content['params'];
 
 //        if (has_action('h5p_alter_filtered_parameters')) {
 //            // Parse the JSON parameters
@@ -447,8 +447,7 @@ class LaravelH5p {
         }
 
         // Try to find content with $id.
-        $core = self::$core;
-        $content = $core->loadContent($id);
+        $content = self::$core->loadContent($id);
 
         if (!$content) {
             return trans('h5p.content.can_not_find_content', ["id" => $id]);

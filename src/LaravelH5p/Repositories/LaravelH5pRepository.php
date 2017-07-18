@@ -568,8 +568,7 @@ class LaravelH5pRepository implements H5PFrameworkInterface {
         FROM h5p_contents hc
         JOIN h5p_libraries hl ON hl.id = hc.library_id
         WHERE hc.id = ?", [$id]);
-        // return (array) array_shift($return);
-        return $return;
+        return (array) array_shift($return);
     }
 
     /**
@@ -864,16 +863,6 @@ class LaravelH5pRepository implements H5PFrameworkInterface {
     public function afterExportCreated($content, $filename) {
 
         $this->_download_file = storage_path('h5p/exports/' . $filename);
-
-//        $response = \Illuminate\Support\Facades\Response::class;
-//        $response->download(storage_path('h5p/exports/' . $filename))->deleteFileAfterSend(true);
-//        return [
-//            "content" => $content,
-//            "filename" => $filename
-//        ];
-        // Clear cached value for dirsize.
-//        delete_transient('dirsize_cache');
-//        echo 1;
     }
 
     /**
