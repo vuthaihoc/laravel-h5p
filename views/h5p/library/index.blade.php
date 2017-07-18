@@ -51,7 +51,7 @@
         <div class="col-md-3">
             <div class="panel panel-primary">
 
-                {!! Form::open(['route' => ['h5p.library.clear'], 'id'=>'h5p-update-content-type-cache', 'class'=>'form-horizontal', 'enctype'=>"multipart/form-data"]) !!}
+                {!! Form::open(['route' => ['h5p.library.clear'], 'id'=>'laravel-h5p-update-content-type-cache', 'class'=>'form-horizontal', 'enctype'=>"multipart/form-data"]) !!}
 
 
                 <div class="panel-body">
@@ -202,6 +202,13 @@
                 });
             });
 
+            $(document).on("submit", "#laravel-h5p-update-content-type-cache", function (e) {
+                if(confirm("{{ trans('laravel-h5p.library.confirm_clear_type_cache') }}")) {
+                        return true;
+                }else{
+                        return false;
+                }
+            });
 
             $(document).on("click", ".laravel-h5p-destory", function (e) {
 
@@ -211,9 +218,9 @@
 
                         $.ajax({
                             url: "{{ route('h5p.library.destroy') }}",
-                            data: {id: $this.data('id')},
+                            data: {id: $obj.data('id')},
                             method: "DELETE",
-                            success: function (data) {
+                            success: function (response) {
                                     if (response.msg) {
                                         alert(response.msg);
                                     }
@@ -222,7 +229,6 @@
                             error: function () {
                                 alert("{{ trans('laravel-h5p.library.can_not_destroy') }}");
                                 location.reload();
-
                             }
                         })
                     }

@@ -69,6 +69,7 @@ return [
         "clear" => "Clear",
         "can_not_destroy" => "Can not remove.",
         "used_library_can_not_destoroied" => "This Library is used by content or other libraries and can therefore not be deleted. ",
+        "confirm_clear_type_cache" => "Are you sure remove a content type cache?",
         "confirm_destroy" => "Are you sure remove a library?",
         'noContent' => 'No content is using this library',
         'contentHeader' => 'Content using this library',
