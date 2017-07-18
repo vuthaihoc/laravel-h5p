@@ -39,6 +39,7 @@ return [
     ],
     'library' => [
         'title' => '라이브러리',
+        'version' => '버전',
         'search-result' => '총 :count개의 라이브러리가 검색되었습니다.',
         "created" => "라이브러리가 생성되었습니다.",
         "updated" => "라이브러리가 변경되었습니다.",

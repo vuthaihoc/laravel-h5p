@@ -47,6 +47,8 @@ return [
     ],
     'library' => [
         'title' => 'Title',
+        'name' => 'Name',
+        'version' => 'Version',
         'restricted' => 'Restricted',
         'contents' => 'Contents',
         'contents_using_it' => 'Contents using it',

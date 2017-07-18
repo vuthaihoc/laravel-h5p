@@ -2,11 +2,11 @@
 
 /*
  *
- * @Project        
+ * @Project
  * @Copyright      leechanrin
- * @Created        2017-04-07 오전 11:46:59 
+ * @Created        2017-04-07 오전 11:46:59
  * @Filename       EditorAjaxRepogitory.php
- * @Description    
+ * @Description
  *
  */
 
@@ -78,12 +78,15 @@ class EditorAjaxRepository implements H5PEditorAjaxInterface {
         foreach ($result as $row) {
             $recently_used[] = $row->library_name;
         }
+
+        dd($recently_used);
+        exit;
         return $recently_used;
     }
 
     public function validateEditorToken($token) {
-//        return (Helpers::nonce($token) == 'h5p_editor_ajax');
-        return true;
+       // return (Helpers::nonce($token) == 'h5p_editor_ajax');
+       return false;
     }
 
 }

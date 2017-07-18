@@ -10,7 +10,7 @@ Route::group(['middleware' => ['web']], function () {
             Route::get('library', "Chali5124\LaravelH5p\Http\Controllers\LibraryController@index")->name("h5p.library.index");
             Route::get('library/show/{id}', "Chali5124\LaravelH5p\Http\Controllers\LibraryController@show")->name("h5p.library.show");
             Route::post('library/store', "Chali5124\LaravelH5p\Http\Controllers\LibraryController@store")->name("h5p.library.store");
-            Route::delete('library/destory', "Chali5124\LaravelH5p\Http\Controllers\LibraryController@destory")->name("h5p.library.destory");
+            Route::delete('library/destroy', "Chali5124\LaravelH5p\Http\Controllers\LibraryController@destroy")->name("h5p.library.destroy");
             Route::get('library/restrict', "Chali5124\LaravelH5p\Http\Controllers\LibraryController@restrict")->name("h5p.library.restrict");
             Route::post('library/clear', "Chali5124\LaravelH5p\Http\Controllers\LibraryController@clear")->name("h5p.library.clear");
         });
