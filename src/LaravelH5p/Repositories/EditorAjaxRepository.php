@@ -86,7 +86,7 @@ class EditorAjaxRepository implements H5PEditorAjaxInterface {
 
     public function validateEditorToken($token) {
        // return (Helpers::nonce($token) == 'h5p_editor_ajax');
-       return false;
+       return true;
     }
 
 }

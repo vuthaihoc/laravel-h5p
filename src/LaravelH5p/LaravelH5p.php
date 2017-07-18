@@ -90,7 +90,7 @@ class LaravelH5p {
             return new LaravelH5pStorage(storage_path('h5p' . $path));
 //            return storage_path('h5p' . $path);
         } else {
-            return url('/assets/h5p' . $path);
+            return self::get_url('/h5p' . $path);
         }
     }
 
@@ -111,7 +111,7 @@ class LaravelH5p {
     }
 
     public static function get_h5plibrary_url($path = '', $absolute = FALSE) {
-        $return = self::get_h5p_storage($path);
+        $return = self::get_url("/h5p" . $path);
 
         if ($absolute) {
             return storage_path('h5p/' . realpath($return));
@@ -201,7 +201,8 @@ class LaravelH5p {
             'postUserStatistics' => (config('laravel-h5p.h5p_track_user', TRUE) === '1') && Auth::check(),
             'ajax' => array(
                 'setFinished' => route('h5p.ajax.finish'),
-                'contentUserData' => route('h5p.ajax.content-user-data', ['content_id' => ':contentId', 'data_type' => ':dataType', 'sub_content_id' => ':subContentId']),
+                'contentUserData' => route('h5p.ajax.content-user-data'),
+                // 'contentUserData' => route('h5p.ajax.content-user-data', ['content_id' => ':contentId', 'data_type' => ':dataType', 'sub_content_id' => ':subContentId']),
             ),
             'saveFreq' => config('laravel-h5p.h5p_save_content_state', FALSE) ? config('laravel-h5p.h5p_save_content_frequency', 30) : FALSE,
             'siteUrl' => config('laravel-h5p.domain'),
@@ -259,7 +260,7 @@ class LaravelH5p {
             ),
             'ajaxPath' => route('h5p.ajax') . '/',
             // for checkeditor,
-            'libraryUrl' => self::get_h5plibrary_url(),
+            'libraryUrl' => self::get_h5peditor_url(),
             'copyrightSemantics' => self::$contentvalidator->getCopyrightSemantics(),
             'assets' => [],
             'deleteMessage' => trans('laravel-h5p.content.destoryed'),
