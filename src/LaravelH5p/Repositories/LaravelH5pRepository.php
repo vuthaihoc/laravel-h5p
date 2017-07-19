@@ -2,11 +2,11 @@
 
 /*
  *
- * @Project        Laravel framework integration class 
+ * @Project        Laravel framework integration class
  * @Copyright      leechanrin
- * @Created        2017-04-06 오후 6:51:39 
+ * @Created        2017-04-06 오후 6:51:39
  * @Filename       H5PLaravel.php
- * @Description    
+ * @Description
  *
  */
 
@@ -30,6 +30,7 @@ use Chali5124\LaravelH5p\Eloquents\H5pContentsUserData;
 class LaravelH5pRepository implements H5PFrameworkInterface {
 
     public $_download_file = '';
+
     /**
      * Kesps track of messages for the user.
      *
@@ -184,10 +185,18 @@ class LaravelH5pRepository implements H5PFrameworkInterface {
      * Implements getLibraryUsage
      */
     public function getLibraryUsage($id, $skipContent = FALSE) {
-        return array(
-            'content' => $skipContent ? -1 : intval(DB::select("SELECT COUNT(distinct c.id) FROM h5p_libraries l JOIN h5p_contents_libraries cl ON l.id = cl.library_id JOIN h5p_contents c ON cl.content_id = c.id WHERE l.id = ?", [$id])),
-            'libraries' => intval(H5pLibrariesLibrary::where('required_library_id', $id)->count())
-        );
+
+            if($skipContent) {
+                    $cotent = -1;
+            }else{
+                    $result = DB::select("SELECT COUNT(distinct c.id) AS cnt FROM h5p_libraries l JOIN h5p_contents_libraries cl ON l.id = cl.library_id JOIN h5p_contents c ON cl.content_id = c.id WHERE l.id = ?", [$id]);
+                    $content = intval($result[0]->cnt);
+            }
+
+            return array(
+                    'content' => $content,
+                    'libraries' => intval(H5pLibrariesLibrary::where('required_library_id', $id)->count())
+            );
     }
 
     /**
@@ -312,8 +321,10 @@ class LaravelH5pRepository implements H5PFrameworkInterface {
      */
     public function deleteLibrary($library) {
 
+            $plugin = App::make('LaravelH5p');
+
         // Delete library files
-        H5PCore::deleteFileTree($this->getH5pPath() . '/libraries/' . $library->name . '-' . $library->major_version . '.' . $library->minor_version);
+        $plugin::$core->deleteFileTree($this->getH5pPath() . '/libraries/' . $library->name . '-' . $library->major_version . '.' . $library->minor_version);
 
         // Remove library data from database
         DB::table('h5p_libraries_libraries')->where('library_id', $library->id)->delete();
@@ -328,10 +339,10 @@ class LaravelH5pRepository implements H5PFrameworkInterface {
 
         foreach ($dependencies as $dependency) {
             DB::insert("INSERT INTO h5p_libraries_libraries (library_id, required_library_id, dependency_type)
-            SELECT ?, hl.id, ? FROM h5p_libraries hl WHERE 
-            name = ? 
+            SELECT ?, hl.id, ? FROM h5p_libraries hl WHERE
+            name = ?
             AND major_version = ?
-            AND minor_version = ? 
+            AND minor_version = ?
             ON DUPLICATE KEY UPDATE dependency_type = ?", [$id, $dependencyType, $dependency['machineName'], $dependency['majorVersion'], $dependency['minorVersion'], $dependencyType]);
         }
 
@@ -539,7 +550,7 @@ class LaravelH5pRepository implements H5PFrameworkInterface {
      * Implements loadContent
      */
     public function loadContent($id) {
-        $return = DB::select("SELECT 
+        $return = DB::select("SELECT
                 hc.id
               , hc.title
               , hc.parameters AS params
@@ -610,14 +621,7 @@ class LaravelH5pRepository implements H5PFrameworkInterface {
         if ($name === 'site_uuid') {
             $name = 'h5p_site_uuid'; // Make up for old core bug
         }
-        $var = $this->getOption($name);
-        $name = 'h5p_' . $name; // Always prefix to avoid conflicts
-        config('laravel-h5p.h5p_' . $name, $value);
-//        if ($var === FALSE) {
-//            config('laravel-h5p.h5p_' . $name, $value);
-//        } else {
-//            config('laravel-h5p.h5p_' . $name, $value);
-//        }
+        config(['laravel-h5p.h5p_' . $name => $value]);
     }
 
     /**
@@ -717,9 +721,7 @@ class LaravelH5pRepository implements H5PFrameworkInterface {
             'filename' => !empty($stream) ? $stream : FALSE
         );
 
-
         $client = new Client();
-
         try {
             if ($data !== NULL) {
                 // Post
@@ -775,7 +777,6 @@ class LaravelH5pRepository implements H5PFrameworkInterface {
      */
     public function isContentSlugAvailable($slug) {
         return DB::select("SELECT slug FROM h5p_contents WHERE slug = ':slug'", ['slub' => $slug]);
-//        return !$wpdb->get_var($wpdb->prepare("SELECT slug FROM h5p_contents WHERE slug = '%s'", $slug));
     }
 
     /**
@@ -813,17 +814,16 @@ class LaravelH5pRepository implements H5PFrameworkInterface {
      * Implements getNumAuthors
      */
     public function getNumAuthors() {
-
         return DB::select("SELECT COUNT(DISTINCT user_id) FROM h5p_contents");
     }
 
     // Magic stuff not used, we do not support library development mode.
     public function lockDependencyStorage() {
-        
+
     }
 
     public function unlockDependencyStorage() {
-        
+
     }
 
     /**
@@ -861,20 +861,8 @@ class LaravelH5pRepository implements H5PFrameworkInterface {
      * Implements afterExportCreated
      */
     public function afterExportCreated($content, $filename) {
-        
+
         $this->_download_file = storage_path('h5p/exports/' . $filename);
-        
-//        $response = \Illuminate\Support\Facades\Response::class;
-//        $response->download(storage_path('h5p/exports/' . $filename))->deleteFileAfterSend(true);
-
-
-//        return [
-//            "content" => $content,
-//            "filename" => $filename
-//        ];
-        // Clear cached value for dirsize.
-//        delete_transient('dirsize_cache');
-//        echo 1;
     }
 
     /**

@@ -51,7 +51,7 @@
         <div class="col-md-3">
             <div class="panel panel-primary">
 
-                {!! Form::open(['route' => ['h5p.library.clear'], 'id'=>'h5p-update-content-type-cache', 'class'=>'form-horizontal', 'enctype'=>"multipart/form-data"]) !!}
+                {!! Form::open(['route' => ['h5p.library.clear'], 'id'=>'laravel-h5p-update-content-type-cache', 'class'=>'form-horizontal', 'enctype'=>"multipart/form-data"]) !!}
 
 
                 <div class="panel-body">
@@ -95,16 +95,18 @@
             <table class="table text-middle text-center h5p-lists">
                 <colgroup>
                     <col width="*">
+                    <col width="8%">
+                    <col width="8%">
+                    <col width="8%">
                     <col width="10%">
-                    <col width="10%">                    
-                    <col width="10%">                    
                     <col width="10%">
-                    <col width="10%">
+                    <col width="15%">
                 </colgroup>
 
                 <thead>
                     <tr class="active">
-                        <th class="text-left">{{ trans('laravel-h5p.library.library') }}</th>
+                        <th class="text-left">{{ trans('laravel-h5p.library.name') }}</th>
+                        <th class="text-center">{{ trans('laravel-h5p.library.version') }}</th>
                         <th class="text-center">{{ trans('laravel-h5p.library.restricted') }}</th>
                         <th class="text-center">{{ trans('laravel-h5p.library.contents') }}</th>
                         <th class="text-center">{{ trans('laravel-h5p.library.contents_using_it') }}</th>
@@ -122,14 +124,15 @@
                     @foreach($entrys as $entry)
                     <tr>
                         <td class="text-left">
-                            <p class="form-control-static">
-                                <a href="{{ route('h5p.library.show', ['id'=>$entry->id]) }}">{{ $entry->title }} ({{ $entry->major_version.'.'.$entry->minor_version.'.'.$entry->patch_version }})</a>
-                            </p>
+                            <p class="form-control-static">{{ $entry->title }}</p>
+                        </td>
+                        <td class="text-center">
+                            <p class="form-control-static">{{ $entry->major_version.'.'.$entry->minor_version.'.'.$entry->patch_version }}</p>
                         </td>
 
                         <td class="text-center">
 
-                            <input type="checkbox" value="{{ $entry->restricted }}" 
+                            <input type="checkbox" value="{{ $entry->restricted }}"
                                    @if($entry->restricted == '1')
                                    checked=""
                                    @endif
@@ -188,37 +191,47 @@
 
         $(document).ready(function () {
 
-
             $(document).on("click", ".laravel-h5p-restricted", function (e) {
-
                 var $this = $(this);
-
                 $.ajax({
                     url: "{{ route('h5p.library.restrict') }}",
                     data: {id: $this.data('id'), selected: $this.is(':checked')},
                     success: function (response) {
-                        alert('변경되었습니다');
+                        alert("{{ trans('laravel-h5p.library.updated') }}");
                     }
                 });
+            });
 
+            $(document).on("submit", "#laravel-h5p-update-content-type-cache", function (e) {
+                if(confirm("{{ trans('laravel-h5p.library.confirm_clear_type_cache') }}")) {
+                        return true;
+                }else{
+                        return false;
+                }
             });
 
             $(document).on("click", ".laravel-h5p-destory", function (e) {
 
-                var $this = $(this);
-                if (confirm("해당 라이브러리를 삭제하시겠습니까?")) {
-                    $.ajax({
-                        url: "{{ route('h5p.library.destory') }}",
-                        data: {id: $this.data('id')},
-                        success: function (response) {
-                            //                        alert('삭제되었습니다');
-                            if (response.msg) {
-                                alert(response.msg);
-                            }
-                        }
-                    });
+                    var $obj = $(this);
+                    var msg = "{{ trans('laravel-h5p.library.confirm_destroy') }}";
+                    if (confirm(msg)) {
 
-                }
+                        $.ajax({
+                            url: "{{ route('h5p.library.destroy') }}",
+                            data: {id: $obj.data('id')},
+                            method: "DELETE",
+                            success: function (response) {
+                                    if (response.msg) {
+                                        alert(response.msg);
+                                    }
+                                    location.reload();
+                            },
+                            error: function () {
+                                alert("{{ trans('laravel-h5p.library.can_not_destroy') }}");
+                                location.reload();
+                            }
+                        })
+                    }
 
             });
 

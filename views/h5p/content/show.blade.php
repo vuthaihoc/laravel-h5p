@@ -10,7 +10,7 @@
             <div class="h5p-content-wrap">
                 {!! $embed_code  !!}
             </div>
-            
+
             <br/>
             <p class='text-center'>
 
@@ -29,7 +29,7 @@
 @foreach($settings['core']['styles'] as $style)
 {{ Html::style($style) }}
 @endforeach
-{{--    load styles       --}}
+
 @foreach($settings['loadedCss'] as $style)
 {{ Html::style($style) }}
 @endforeach
@@ -45,8 +45,8 @@
 {{ Html::script($script) }}
 @endforeach
 
-{{--    load script       --}}
 @foreach($settings['loadedJs'] as $script)
 {{ Html::script($script) }}
 @endforeach
+
 @endpush

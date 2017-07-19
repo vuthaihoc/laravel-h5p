@@ -92,12 +92,8 @@ class LibraryController extends Controller {
             $settings['libraryInfo']['notCached'] = $this->get_not_cached_settings($notCached);
         } else {
             // List content which uses this library
-            $contents = DB::select(
-                            "SELECT DISTINCT hc.id, hc.title
-            FROM h5p_contents_libraries hcl
-            JOIN h5p_contents hc ON hcl.content_id = hc.id
-            WHERE hcl.library_id = ?
-            ORDER BY hc.title", [$library->id]);
+            $contents = DB::select("SELECT DISTINCT hc.id, hc.title FROM h5p_contents_libraries hcl JOIN h5p_contents hc ON hcl.content_id = hc.id WHERE hcl.library_id = ? ORDER BY hc.title", [$library->id]);
+
             foreach ($contents as $content) {
                 $settings['libraryInfo']['content'][] = array(
                     'title' => $content->title,
@@ -158,9 +154,9 @@ class LibraryController extends Controller {
                         ->with('error', trans('laravel-h5p.library.can_not_updated'));
     }
 
-    public function destroy(Request $request, $id) {
+    public function destroy(Request $request) {
 
-        $library = H5pLibrary::findOrFail($id);
+        $library = H5pLibrary::findOrFail($request->get("id"));
 
         $h5p = App::make('LaravelH5p');
         $interface = $h5p::$interface;
@@ -176,7 +172,7 @@ class LibraryController extends Controller {
 
         return redirect()
                         ->route('h5p.library.index')
-                        ->with('success', trans('laravel-h5p.library.destoryed'));
+                        ->with('success', trans('laravel-h5p.library.destroyed'));
     }
 
     public function clear(Request $request) {
@@ -189,6 +185,7 @@ class LibraryController extends Controller {
         $contents = H5pContent::where('filtered', '')->get();
 
         $done = 0;
+
         foreach ($contents as $content) {
             $content = $core->loadContent($content->id);
             $core->filterParameters($content);
