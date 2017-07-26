@@ -1,6 +1,6 @@
-# H5P Plugin in Laravel Framework 
+# H5P Plugin in Laravel Framework
 
-I will be back 18 July... with more update.... Sorry... 
+This source is in development. Even if i  lazy reply, please understand.
 
 ## Installation
 
